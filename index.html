@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOSS TIER - Bảng Xếp Hạng & Tier List Minecraft PvP</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- html2canvas -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <!-- Google Font: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        greenAccent: '#4ade80',
+                        greenDark: '#16a34a',
+                        greenLight: '#bbf7d0',
+                        darkBg: '#0f172a',
+                        cardDark: '#1e293b',
+                        borderDark: '#334155'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(74, 222, 128, 0.05) 0%, rgba(15, 23, 42, 1) 60%),
+                radial-gradient(circle at 90% 80%, rgba(51, 65, 85, 0.4) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* TIER COLORS */
+        .tier-circle-tier1 { border: 3px solid rgba(250, 204, 21, 0.85); background-color: rgba(254, 243, 199, 0.08); }
+        .tier-label-tier1 { background-color: rgba(161, 98, 7, 0.3); color: #fde047; }
+
+        .tier-circle-tier2 { border: 3px solid rgba(148, 163, 184, 0.45); background-color: rgba(241, 245, 249, 0.08); }
+        .tier-label-tier2 { background-color: rgba(100, 116, 139, 0.3); color: #cbd5e1; }
+
+        .tier-circle-tier3 { border: 3px solid rgba(212, 143, 84, 0.85); background-color: rgba(245, 222, 179, 0.08); }
+        .tier-label-tier3 { background-color: rgba(146, 84, 39, 0.35); color: #f7b281; }
+
+        .tier-circle-tier4 { border: 3px solid #4ade80; background-color: rgba(240, 253, 244, 0.08); }
+        .tier-label-tier4 { background-color: rgba(22, 101, 52, 0.3); color: #86efac; }
+
+        .tier-circle-tier5 { border: 3px solid rgba(209, 213, 219, 0.45); background-color: rgba(249, 250, 251, 0.08); }
+        .tier-label-tier5 { background-color: rgba(107, 114, 128, 0.3); color: #d1d5db; }
+
+        .player-row {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+            border: 1px solid #334155;
+            background-color: rgba(30, 41, 59, 0.5);
+            border-radius: 1rem;
+            margin-bottom: 12px;
+        }
+        .player-row:hover {
+            transform: scale(1.01);
+            background-color: #1e293b !important;
+            border-color: #4ade80;
+            box-shadow: 0 10px 25px -5px rgba(74, 222, 128, 0.15), 0 8px 10px -6px rgba(74, 222, 128, 0.1);
+            z-index: 20;
+            position: relative;
+        }
+
+        #modeTabsWrapper {
+            overflow: visible !important;
+            padding-top: 10px;
+            position: relative;
+        }
+
+        .mode-btn {
+            background-color: #162032;
+            border: 1px solid #334155;
+            border-top-left-radius: 0.85rem;
+            border-top-right-radius: 0.85rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            margin-right: 4px;
+            z-index: 10;
+        }
+
+        .mode-btn:hover {
+            background-color: #1e293b;
+            border-color: #4ade80;
+            box-shadow: 0 0 12px rgba(74, 222, 128, 0.2);
+            z-index: 40;
+        }
+
+        .mode-btn.active {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-bottom: 1px solid #1e293b;
+            z-index: 30;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-green-500 selection:text-white">
+
+    <!-- Navigation Bar -->
+    <nav class="w-full border-b border-slate-800 bg-[#0f172a]/85 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="max-w-[1500px] mx-auto px-6 sm:px-10 lg:px-12">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center space-x-6">
+                    <a href="#" class="flex items-center space-x-3 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-green-600 to-green-400 flex items-center justify-center shadow-lg shadow-green-500/20 text-slate-950 font-extrabold text-xl">
+                            B
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-extrabold text-lg tracking-wider text-white group-hover:text-green-400 transition-colors">BOSS TIER</span>
+                            <span class="text-xs text-slate-400 font-medium">Minecraft PvP Leaderboard</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="exportBtn" onclick="exportScreenshot()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sm font-semibold text-green-400 flex items-center space-x-2 transition-all shadow-md">
+                        <i class="fa-solid fa-camera"></i>
+                        <span>Tải Ảnh Bảng Xếp Hạng</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-[1500px] w-full mx-auto px-6 sm:px-10 lg:px-12 py-8">
+        <!-- Header Section -->
+        <div class="mb-8 text-center sm:text-left flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Bảng Xếp Hạng Tier List</h1>
+                <p class="text-slate-400 mt-1 text-sm sm:text-base">Cập nhật danh sách các cao thủ PvP Minecraft theo từng chế độ chơi.</p>
+            </div>
+            <!-- Search Bar -->
+            <div class="relative w-full sm:w-72">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                    <i class="fa-solid fa-search"></i>
+                </span>
+                <input type="text" id="searchInput" oninput="filterPlayers()" placeholder="Tìm kiếm người chơi..." class="w-full pl-10 pr-4 py-2.5 bg-slate-900/80 border border-slate-700 rounded-xl text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-green-400 focus:ring-1 focus:ring-green-400 transition-all">
+            </div>
+        </div>
+
+        <!-- Mode Tabs -->
+        <div id="modeTabsWrapper" class="flex flex-wrap border-b border-slate-700 mb-8">
+            <button onclick="switchMode('crystal', event)" class="mode-btn active px-6 py-3 font-bold text-sm text-green-400 flex items-center space-x-2">
+                <i class="fa-solid fa-gem"></i>
+                <span>Crystal PvP</span>
+            </button>
+            <button onclick="switchMode('boxpvp', event)" class="mode-btn px-6 py-3 font-bold text-sm text-slate-300 flex items-center space-x-2">
+                <i class="fa-solid fa-box"></i>
+                <span>Box PvP</span>
+            </button>
+            <button onclick="switchMode('netherite', event)" class="mode-btn px-6 py-3 font-bold text-sm text-slate-300 flex items-center space-x-2">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Netherite Pot</span>
+            </button>
+        </div>
+
+        <!-- Leaderboard Container (Exportable Area) -->
+        <div id="leaderboardArea" class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 shadow-xl backdrop-blur-sm">
+            <div id="playerList" class="space-y-3">
+                <!-- Player Rows will be populated by JS -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full border-t border-slate-800 py-6 text-center text-slate-500 text-sm">
+        <p>&copy; 2026 BOSS TIER. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const playerData = {
+            crystal: [
+                { rank: 1, name: "DoBossV2", tier: "Tier 1", points: 2850, status: "Undefeated" },
+                { rank: 2, name: "Hieuyamate", tier: "Tier 1", points: 2720, status: "Active" },
+                { rank: 3, name: "tanikami", tier: "Tier 2", points: 2540, status: "Active" },
+                { rank: 4, name: "mappleMC", tier: "Tier 2", points: 2430, status: "Active" },
+                { rank: 5, name: "ThienPvP", tier: "Tier 3", points: 2100, status: "Active" }
+            ],
+            boxpvp: [
+                { rank: 1, name: "Hieuyamate", tier: "Tier 1", points: 3100, status: "King" },
+                { rank: 2, name: "DoBossV2", tier: "Tier 2", points: 2900, status: "Active" },
+                { rank: 3, name: "mappleMC", tier: "Tier 2", points: 2750, status: "Active" }
+            ],
+            netherite: [
+                { rank: 1, name: "tanikami", tier: "Tier 1", points: 2950, status: "Master" },
+                { rank: 2, name: "ThienPvP", tier: "Tier 2", points: 2600, status: "Active" }
+            ]
+        };
+
+        let currentMode = 'crystal';
+
+        function renderPlayers(data) {
+            const container = document.getElementById('playerList');
+            container.innerHTML = '';
+
+            if (data.length === 0) {
+                container.innerHTML = `<div class="text-center py-8 text-slate-500">Không tìm thấy người chơi nào.</div>`;
+                return;
+            }
+
+            data.forEach(player => {
+                let tierClass = 'tier-label-tier2';
+                let circleClass = 'tier-circle-tier2';
+                if(player.tier === 'Tier 1') { tierClass = 'tier-label-tier1'; circleClass = 'tier-circle-tier1'; }
+                else if(player.tier === 'Tier 3') { tierClass = 'tier-label-tier3'; circleClass = 'tier-circle-tier3'; }
+                else if(player.tier === 'Tier 4') { tierClass = 'tier-label-tier4'; circleClass = 'tier-circle-tier4'; }
+
+                const row = document.createElement('div');
+                row.className = 'player-row flex items-center justify-between p-4 rounded-xl';
+                row.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${circleClass}">
+                            #${player.rank}
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white text-base">${player.name}</h4>
+                            <span class="text-xs text-slate-400">Điểm: ${player.points} pts</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <span class="px-3 py-1 rounded-full text-xs font-extrabold ${tierClass}">${player.tier}</span>
+                        <span class="hidden sm:inline-block text-xs text-slate-400 bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">${player.status}</span>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function switchMode(mode, event) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('active', 'text-green-400');
+                btn.classList.add('text-slate-300');
+            });
+            event.currentTarget.classList.add('active', 'text-green-400');
+            event.currentTarget.classList.remove('text-slate-300');
+            
+            filterPlayers();
+        }
+
+        function filterPlayers() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const list = playerData[currentMode] || [];
+            const filtered = list.filter(p => p.name.toLowerCase().includes(query));
+            renderPlayers(filtered);
+        }
+
+        function exportScreenshot() {
+            const element = document.getElementById('leaderboardArea');
+            html2canvas(element, { scale: 2, backgroundColor: '#0f172a' }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `bosstier-${currentMode}-leaderboard.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+
+        // Initial render
+        renderPlayers(playerData.crystal);
+    </script>
+</body>
+</html>
