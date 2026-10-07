@@ -8,8 +8,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- html2canvas -->
+<!-- html2canvas -->
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    
+    <!-- Appwrite Web SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.1"></script>
+
     <!-- Google Font: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -927,29 +931,5 @@
             });
         }
     </script>
-    <script type="module">
-    import { databases, DATABASE_ID, COLLECTION_ID } from './appwrite.js';
-
-    async function loadTierList() {
-        try {
-            // Lấy danh sách tài liệu từ Appwrite Collection
-            const response = await databases.listDocuments(
-                DATABASE_ID,
-                COLLECTION_ID
-            );
-            
-            console.log("Dữ liệu lấy từ Appwrite:", response.documents);
-            
-            // Ở đây bạn có thể dùng dữ liệu `response.documents` 
-            // để đổ (render) ra các thẻ HTML hiển thị tier list của bạn.
-            
-        } catch (error) {
-            console.error("Lỗi khi tải dữ liệu từ Appwrite:", error);
-        }
-    }
-
-    // Chạy hàm khi trang web được tải xong
-    loadTierList();
-</script>
 </body>
 </html>
