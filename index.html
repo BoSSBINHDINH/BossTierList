@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BOSS TIER - Bảng Xếp Hạng & Tier List Minecraft PvP</title>
+    <!-- Appwrite Web SDK: kết nối database -->
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -384,6 +386,15 @@
     </div>
 
     <script>
+        // Appwrite database configuration (giữ cùng Project/Database/Collection từ index.html)
+        const { Client, Databases, Query, ID } = Appwrite;
+        const appwriteClient = new Client()
+            .setEndpoint('https://sgp.cloud.appwrite.io/v1')
+            .setProject('6abe0b1f00000e883399');
+        const appwriteDatabases = new Databases(appwriteClient);
+        const DATABASE_ID = '6abe0bb6000caab818b9';
+        const COLLECTION_ID = '6abe0d8300108a42b831';
+
         const TIER_POINTS = {
             'HT1': 60, 'LT1': 45, 'HT2': 30, 'LT2': 20, 'HT3': 10,
             'LT3': 6, 'HT4': 4, 'LT4': 3, 'HT5': 2, 'LT5': 1
@@ -442,30 +453,46 @@
 
         async function loadPlayersFromAppwrite() {
             try {
-                const response = await fetch(`/api/results?ts=${Date.now()}`, { cache: 'no-store' });
-                if (!response.ok) throw new Error(`API ${response.status}`);
-                const data = await response.json();
-                if (!data.ok || !Array.isArray(data.players)) throw new Error(data.error || 'Dữ liệu không hợp lệ');
-                players = data.players.map(p => ({
-                    ...p,
-                    tiers: Object.fromEntries(Object.entries(p.tiers || {}).map(([mode, tier]) => [mode, normalizeWebTier(tier)])),
-                    points: Number(p.points || 0),
-                    history: Array.isArray(p.history) ? p.history : []
-                }));
+                const response = await appwriteDatabases.listDocuments(
+                    DATABASE_ID, COLLECTION_ID, [Query.limit(100)]
+                );
+                players = response.documents.map(doc => {
+                    let tiers = doc.tiers || {};
+                    if (typeof tiers === 'string') {
+                        try { tiers = JSON.parse(tiers); } catch (_) { tiers = {}; }
+                    }
+                    tiers = Object.fromEntries(
+                        Object.entries(tiers || {}).map(([mode, tier]) => [mode, normalizeWebTier(tier)])
+                    );
+                    return {
+                        id: doc.$id,
+                        username: doc.username,
+                        avatarUrl: doc.avatarUrl || doc.skin || `https://vzge.me/bust/220/${doc.username}.png`,
+                        region: (doc.region || 'AS').toUpperCase(),
+                        tiers,
+                        points: calculatePlayerPoints(tiers),
+                        history: Array.isArray(doc.history) ? doc.history : []
+                    };
+                });
                 dataSource = 'appwrite';
                 localStorage.setItem('dennis_last_server_data', JSON.stringify(players));
                 const status = document.getElementById('dataStatus');
-                if (status) status.innerText = `● Đang đồng bộ Appwrite • ${players.length} người chơi`;
-                if (status) status.className = 'text-xs mt-2 text-green-400';
+                if (status) {
+                    status.innerText = `● Đang đồng bộ Appwrite • ${players.length} người chơi`;
+                    status.className = 'text-xs mt-2 text-green-400';
+                }
             } catch (error) {
                 console.error('[BossTier] Không tải được Appwrite:', error);
                 const cached = JSON.parse(localStorage.getItem('dennis_last_server_data') || 'null');
-                players = Array.isArray(cached) && cached.length ? cached : defaultPlayers.map(p => ({ ...p, tiers: { ...p.tiers } }));
+                players = Array.isArray(cached) && cached.length
+                    ? cached : defaultPlayers.map(p => ({ ...p, tiers: { ...p.tiers } }));
                 players.forEach(p => { p.points = calculatePlayerPoints(p.tiers); });
                 dataSource = 'fallback';
                 const status = document.getElementById('dataStatus');
-                if (status) status.innerText = '● Đang dùng dữ liệu dự phòng — kiểm tra /api/results';
-                if (status) status.className = 'text-xs mt-2 text-amber-400';
+                if (status) {
+                    status.innerText = '● Lỗi Appwrite — kiểm tra quyền Database/Collection';
+                    status.className = 'text-xs mt-2 text-amber-400';
+                }
             }
             renderTabs();
             renderLeaderboard();
@@ -475,6 +502,23 @@
                 uiInitialized = true;
             }
             setTimeout(updateIndicatorPosition, 50);
+        }
+
+        async function persistPlayerToAppwrite(player) {
+            const payload = {
+                username: player.username,
+                tiers: JSON.stringify(player.tiers || {}),
+                region: player.region || 'AS'
+            };
+            if (player.avatarUrl) payload.avatarUrl = player.avatarUrl;
+            if (player.id) {
+                await appwriteDatabases.updateDocument(DATABASE_ID, COLLECTION_ID, player.id, payload);
+            } else {
+                const created = await appwriteDatabases.createDocument(
+                    DATABASE_ID, COLLECTION_ID, ID.unique(), payload
+                );
+                player.id = created.$id;
+            }
         }
 
         let activeTab = 'overall';
@@ -919,10 +963,11 @@
 
         function closeModal() { document.getElementById('playerModal').classList.add('hidden'); }
 
-        function handleFormSubmit(e) {
+        async function handleFormSubmit(e) {
             e.preventDefault();
             const editIdx = parseInt(document.getElementById('editIndex').value);
             const username = document.getElementById('inputUsername').value.trim();
+            if (!username) return;
 
             const tiers = {};
             modes.filter(m => m.id !== 'overall').forEach(m => {
@@ -931,25 +976,62 @@
             });
 
             const points = calculatePlayerPoints(tiers);
-            if (editIdx >= 0) players[editIdx] = { username, points, tiers };
-
+            if (editIdx >= 0) {
+                const previous = players[editIdx] || {};
+                players[editIdx] = { ...previous, username, points, tiers };
+                try {
+                    await persistPlayerToAppwrite(players[editIdx]);
+                    showDatabaseMessage('Đã lưu người chơi lên Appwrite.', true);
+                } catch (err) {
+                    console.error('[BossTier] Lỗi lưu Appwrite:', err);
+                    showDatabaseMessage('Không lưu được lên Appwrite. Kiểm tra quyền ghi của Collection.', false);
+                }
+            }
             saveAndRefresh();
             closeModal();
         }
 
-        function editPlayer(username) { openModal(username); }
-
-        function deletePlayer(username) {
-            if (confirm(`Bạn có chắc muốn xóa ${username}?`)) {
-                players = players.filter(p => p.username !== username);
-                saveAndRefresh();
+        function showDatabaseMessage(message, success) {
+            const status = document.getElementById('dataStatus');
+            if (status) {
+                status.innerText = (success ? '● ' : '● ') + message;
+                status.className = 'text-xs mt-2 ' + (success ? 'text-green-400' : 'text-rose-400');
             }
         }
 
-        function saveAndRefresh() {
+        function editPlayer(username) { openModal(username); }
+
+        async function deletePlayer(username) {
+            const player = players.find(p => p.username === username);
+            if (!confirm(`Bạn có chắc muốn xóa ${username}?`)) return;
+            try {
+                if (player && player.id) {
+                    await appwriteDatabases.deleteDocument(DATABASE_ID, COLLECTION_ID, player.id);
+                }
+                players = players.filter(p => p.username !== username);
+                saveAndRefresh();
+                showDatabaseMessage('Đã xóa người chơi.', true);
+            } catch (err) {
+                console.error('[BossTier] Không thể xóa người chơi:', err);
+                showDatabaseMessage('Không xóa được trên Appwrite. Kiểm tra quyền xóa của Collection.', false);
+            }
+        }
+
+        async function saveAndRefresh() {
             localStorage.setItem('dennis_last_server_data', JSON.stringify(players));
             if (currentView === 'leaderboard') renderLeaderboard();
             else renderTierlistMaker();
+
+            // Đồng bộ các người chơi đã có document ID khi thao tác đổi tier nhanh.
+            if (dataSource === 'appwrite') {
+                try {
+                    await Promise.all(players.filter(p => p.id).map(p => persistPlayerToAppwrite(p)));
+                    showDatabaseMessage('Dữ liệu đã được đồng bộ lên Appwrite.', true);
+                } catch (err) {
+                    console.error('[BossTier] Lỗi đồng bộ Appwrite:', err);
+                    showDatabaseMessage('Không đồng bộ được. Kiểm tra quyền ghi của Collection.', false);
+                }
+            }
         }
 
         function exportTierlistImage() {
