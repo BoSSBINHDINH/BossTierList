@@ -1,17 +1,54 @@
-require('dotenv').config();
-const express = require('express');
-const path = require('path');
-const app = express();
-const port = 8080; // Đổi port thành 8080 ở đây
+// Danh sách người chơi lấy từ Appwrite
+let leaderboardData = [];
 
-// Phục vụ các file tĩnh trong thư mục
-app.use(express.static(path.join(__dirname)));
+// Hàm gọi dữ liệu trực tiếp từ Appwrite Collection
+async function fetchLeaderboardFromAppwrite() {
+    try {
+        // Gọi API công khai của Appwrite (Yêu cầu collection players đã bật quyền Read cho 'Any')
+        const response = await fetch(`https://sgp.cloud.appwrite.io/v1/databases/6abe735d000cdcf9add0/collections/6abe735d000cdcf9add0/documents`, {
+            headers: {
+                'X-Appwrite-Project': '6abe6933000170bafd6d',
+                'Content-Type': 'application/json'
+            }
+        });
 
-// Route trang chủ trỏ về file BossTier.html
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'BossTier.html'));
-});
+        const data = await response.json();
 
-app.listen(port, () => {
-    console.log(`🚀 Server đang chạy tại: http://localhost:${port}`);
-});
+        if (data.documents) {
+            // Map dữ liệu từ Appwrite chuẩn hóa vào leaderboardData với cơ chế xử lý tiers thông minh
+            leaderboardData = data.documents.map(doc => {
+                let parsedTiers = { Sword: doc.tier || "Unranked" };
+
+                if (doc.tiers) {
+                    if (typeof doc.tiers === 'object') {
+                        parsedTiers = doc.tiers;
+                    } else if (typeof doc.tiers === 'string') {
+                        try {
+                            parsedTiers = JSON.parse(doc.tiers);
+                        } catch (e) {
+                            // Nếu người dùng gõ dạng thô như "Sword: HT1" hoặc "HT1"
+                            if (doc.tiers.includes(':')) {
+                                const parts = doc.tiers.split(':');
+                                parsedTiers = { [parts[0].trim()]: parts[1].trim() };
+                            } else {
+                                parsedTiers = { Sword: doc.tiers.trim() };
+                            }
+                        }
+                    }
+                }
+
+                return {
+                    name: doc.name || doc.username || "Unknown",
+                    points: doc.points || 0,
+                    skin: doc.skin || doc.name || "Steve",
+                    tiers: parsedTiers
+                };
+            });
+        }
+
+        return leaderboardData;
+    } catch (error) {
+        console.error("Lỗi tải dữ liệu từ Appwrite:", error);
+        return [];
+    }
+}
