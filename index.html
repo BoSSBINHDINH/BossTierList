@@ -386,14 +386,14 @@
     </div>
 
     <script>
-        // Appwrite database configuration (giữ cùng Project/Database/Collection từ index.html)
+        // Kết nối Appwrite bằng Project ID, Database ID và Collection ID đã cung cấp.
         const { Client, Databases, Query, ID } = Appwrite;
         const appwriteClient = new Client()
             .setEndpoint('https://sgp.cloud.appwrite.io/v1')
-            .setProject('6abe0b1f00000e883399');
+            .setProject('6abe6933000170bafd6d');
         const appwriteDatabases = new Databases(appwriteClient);
-        const DATABASE_ID = '6abe0bb6000caab818b9';
-        const COLLECTION_ID = '6abe0d8300108a42b831';
+        const DATABASE_ID = '6abe735d000cdcf9add0';
+        const COLLECTION_ID = '6abe73830021ac77c8ea';
 
         const TIER_POINTS = {
             'HT1': 60, 'LT1': 45, 'HT2': 30, 'LT2': 20, 'HT3': 10,
@@ -413,19 +413,19 @@
         }
 
         const defaultModes = [
-            { id: 'overall', name: 'OVERALL', icon: 'https://media.discordapp.net/attachments/1561970261069271110/1562082456021237760/tier_1.png?ex=6ad8b227&is=6ad760a7&hm=c18bd8fde867e339c5915428c3e18dd1d75346e4796a8ed19705b0f74f34a498&=&format=webp&quality=lossless&width=640&height=640' },
-            { id: 'sword', name: 'SWORD', icon: 'https://media.discordapp.net/attachments/1533139152646832198/1560155355252793374/sword.png?ex=6ad846e6&is=6ad6f566&hm=8c1a329d728dc323fb65b3f328c88cc05fcd2901c518197022eb426b7413f6a0&=&format=webp&quality=lossless&width=640&height=640' },
-            { id: 'nethot', name: 'NETHOP', icon: 'https://media.discordapp.net/attachments/1533139152646832198/1560155354841489488/nethop.png?ex=6ad846e6&is=6ad6f566&hm=924288b8e4bcaea68b8ec92971029c6315a37f48799b88cb4fa5a9f3c4f1c7a2&=&format=webp&quality=lossless&width=640&height=640' },
-            { id: 'smp', name: 'SMP', icon: 'https://media.discordapp.net/attachments/1533139152646832198/1560155353604300932/smp.png?ex=6ad846e6&is=6ad6f566&hm=beb6f065923dcaab36240a92f21d01deafe0f77d424f6444aca855af42135ede&=&format=webp&quality=lossless' },
-            { id: 'uhc', name: 'UHC', icon: 'https://media.discordapp.net/attachments/1533139152646832198/1560155352824156222/uhc.png?ex=6ad846e6&is=6ad6f566&hm=8b313fc4dc04fc88fef4c350bd16e3d8b1c1fbf7ed14a05cacccca0d9088e6e3&=&format=webp&quality=lossless&width=640&height=640' },
-            { id: 'axe', name: 'AXE', icon: 'https://media.discordapp.net/attachments/1533139152646832198/1560155353251848302/axe.png?ex=6ad846e6&is=6ad6f566&hm=2341137bda18df28dee75067c501e86e1d2ba1a7155fa82bb7aa058865ed14f7&=&format=webp&quality=lossless&width=640&height=640' },
-            { id: 'vanilla', name: 'VANILLA', icon: 'https://media.discordapp.net/attachments/1533139152646832198/1560155354464129035/vanilla.png?ex=6ad846e6&is=6ad6f566&hm=6d66ddccfa6c0c5254fca4461c86223184079bb57562ae3dacf5a2326a953bbf&=&format=webp&quality=lossless&width=640&height=640' },
-            { id: 'mace', name: 'MACE', icon: 'https://media.discordapp.net/attachments/1533139152646832198/1560155353977454712/mace.png?ex=6ad846e6&is=6ad6f566&hm=d0107246e38cf1b7bb1027f59d5f7e397b74dd11b4cb1c7a3d80fd672215fc61&=&format=webp&quality=lossless&width=640&height=640' },
-            { id: 'pot', name: 'POT', icon: 'https://media.discordapp.net/attachments/1533139152646832198/1560155352052408381/pot.png?ex=6ad846e6&is=6ad6f566&hm=fbde0b17e281238e6cd9199fabe061cf1e4b8703095178ccad72da5768faaeea&=&format=webp&quality=lossless&width=640&height=640' }
+            { id: 'overall', name: 'OVERALL', icon: 'https://ibb.co/fG4XWx46' },
+            { id: 'sword', name: 'SWORD', icon: 'https://ibb.co/tTDvMGZp' },
+            { id: 'netpot', name: 'NETHOP', icon: 'https://ibb.co/Cpdpggp5' },
+            { id: 'smp', name: 'SMP', icon: 'https://ibb.co/XkWv5MW4' },
+            { id: 'uhc', name: 'UHC', icon: 'https://ibb.co/VcDzd97z' },
+            { id: 'axe', name: 'AXE', icon: 'https://ibb.co/PvRHSXjn' },
+            { id: 'vanilla', name: 'VANILLA', icon: 'https://ibb.co/N6XKK0Lf' },
+            { id: 'mace', name: 'MACE', icon: 'https://ibb.co/nvmTCL4' },
+            { id: 'pot', name: 'POT', icon: 'https://ibb.co/jkRnwP2Q' }
         ];
 
         const defaultPlayers = [
-            { username: 'ThisReal_Boss', tiers: { sword: 'LT4' }, points: 3, history: [] }
+            { username: 'ThisReal_Boss', tiers: { sword: 'LT4' , uhc: 'HT5'}, points: 3, history: [] }
         ];
 
         const savedModes = JSON.parse(localStorage.getItem('dennis_modes') || 'null');
@@ -438,7 +438,7 @@
             modes.push(...savedModes.filter(mode => !defaultModeIds.has(mode.id)));
         }
 
-        // Dữ liệu chính lấy từ Appwrite thông qua Vercel API (API key không bao giờ gửi xuống trình duyệt).
+        // Đọc dữ liệu trực tiếp từ Appwrite Web SDK; không đặt API key bí mật trong mã frontend.
         let players = [];
         let dataSource = 'loading';
         let uiInitialized = false;
