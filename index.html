@@ -680,6 +680,7 @@
             const modeTierBoard = document.getElementById('modeTierBoard');
 
             if (activeTab !== 'overall') {
+                document.getElementById('paginationControls').classList.add('hidden');
                 tableHeader.classList.add('hidden');
                 container.classList.add('hidden');
                 emptyState.classList.add('hidden');
@@ -688,6 +689,7 @@
                 return;
             }
 
+            document.getElementById('paginationControls').classList.remove('hidden');
             tableHeader.classList.remove('hidden');
             container.classList.remove('hidden');
             modeTierBoard.classList.add('hidden');
@@ -730,21 +732,21 @@
                     const tierVal = player.tiers ? player.tiers[mode.id] : null;
                     if (!tierVal) {
                         return `
-                            <div class="flex flex-col items-center gap-1 min-w-[44px] flex-shrink-0">
-                                <div class="w-11 h-11 rounded-full tier-circle-empty flex items-center justify-center">
+                            <div class="flex flex-col items-center gap-1.5 min-w-[48px] flex-shrink-0">
+                                <div class="w-12 h-12 rounded-full tier-circle-empty flex items-center justify-center">
                                     <img src="${mode.icon}" class="w-6 h-6 object-contain opacity-50" alt="${mode.name}">
                                 </div>
-                                <span class="tier-label-empty text-xs font-black px-2 py-0.5 rounded-md leading-none">-</span>
+                                <span class="tier-label-empty text-xs font-black px-2.5 py-0.5 rounded-md leading-none">-</span>
                             </div>
                         `;
                     }
                     const tClass = getTierClass(tierVal);
                     return `
-                        <div class="flex flex-col items-center gap-1 min-w-[44px] flex-shrink-0 group relative">
-                            <div class="w-11 h-11 rounded-full ${tClass.circle} flex items-center justify-center shadow-sm hover:scale-105 transition-transform">
+                        <div class="flex flex-col items-center gap-1.5 min-w-[48px] flex-shrink-0 group relative">
+                            <div class="w-12 h-12 rounded-full ${tClass.circle} flex items-center justify-center shadow-sm hover:scale-105 transition-transform">
                                 <img src="${mode.icon}" class="w-6 h-6 object-contain" alt="${mode.name}">
                             </div>
-                            <span class="${tClass.label} text-xs font-black px-2 py-0.5 rounded-md leading-none tracking-tight shadow-sm">${tierVal}</span>
+                            <span class="${tClass.label} text-xs font-black px-2.5 py-0.5 rounded-md leading-none tracking-tight shadow-sm">${tierVal}</span>
                         </div>
                     `;
                 }).join('');
@@ -780,9 +782,8 @@
                 p.username.toLowerCase().includes(searchQuery.toLowerCase()) &&
                 p.tiers && p.tiers[activeTab]
             );
-            const pageStart = (currentPlayerPage - 1) * PLAYERS_PER_PAGE;
-            const visiblePlayers = filtered.slice(pageStart, pageStart + PLAYERS_PER_PAGE);
-            renderPagination(filtered.length);
+            // Mode Tier board stays on one view; pagination applies only to Overall.
+            document.getElementById('paginationControls').classList.add('hidden');
             const headerColors = [
                 'bg-[#51441f] text-yellow-300 border-yellow-300/20',
                 'bg-[#2d3a50] text-slate-300 border-slate-300/15',
@@ -794,7 +795,13 @@
             container.innerHTML = `
                 <div class="min-w-[900px] grid grid-cols-5 gap-3">
                     ${[1, 2, 3, 4, 5].map(level => {
-                        const tierPlayers = visiblePlayers.filter(p => Number(p.tiers[activeTab].slice(-1)) === level);
+                        const tierPlayers = filtered
+                            .filter(p => Number(p.tiers[activeTab].slice(-1)) === level)
+                            .sort((a, b) => {
+                                const aRank = TIER_RANKS.indexOf(String(a.tiers[activeTab]).toUpperCase());
+                                const bRank = TIER_RANKS.indexOf(String(b.tiers[activeTab]).toUpperCase());
+                                return (aRank < 0 ? 999 : aRank) - (bRank < 0 ? 999 : bRank);
+                            });
                         return `
                             <section class="flex min-h-[266px] flex-col overflow-hidden rounded-xl border border-[#26344c] bg-[#141f33] shadow-sm">
                                 <div class="flex h-10 items-center justify-center gap-2 border-b px-3 ${headerColors[level - 1]}">
