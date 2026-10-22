@@ -259,7 +259,7 @@
                     <div class="w-24 text-center flex-shrink-0">#</div>
                     <div class="w-[27%] min-w-0 flex-shrink-0">PLAYER</div>
                     <div class="w-20 sm:w-24 text-left flex-shrink-0">POINTS</div>
-                    <div class="flex-1">TIERS</div>
+                    <div class="flex-1 pl-3">TIERS</div>
                 </div>
 
                 <div id="leaderboardBody" class="flex flex-col text-base font-semibold">
@@ -732,21 +732,21 @@
                     const tierVal = player.tiers ? player.tiers[mode.id] : null;
                     if (!tierVal) {
                         return `
-                            <div class="flex flex-col items-center gap-1.5 min-w-[48px] flex-shrink-0">
-                                <div class="w-12 h-12 rounded-full tier-circle-empty flex items-center justify-center">
+                            <div class="flex flex-col items-center gap-1 min-w-[44px] flex-shrink-0">
+                                <div class="w-11 h-11 rounded-full tier-circle-empty flex items-center justify-center">
                                     <img src="${mode.icon}" class="w-6 h-6 object-contain opacity-50" alt="${mode.name}">
                                 </div>
-                                <span class="tier-label-empty text-xs font-black px-2.5 py-0.5 rounded-md leading-none">-</span>
+                                <span class="tier-label-empty text-xs font-black px-2 py-0.5 rounded-md leading-none">-</span>
                             </div>
                         `;
                     }
                     const tClass = getTierClass(tierVal);
                     return `
-                        <div class="flex flex-col items-center gap-1.5 min-w-[48px] flex-shrink-0 group relative">
-                            <div class="w-12 h-12 rounded-full ${tClass.circle} flex items-center justify-center shadow-sm hover:scale-105 transition-transform">
+                        <div class="flex flex-col items-center gap-1 min-w-[44px] flex-shrink-0 group relative">
+                            <div class="w-11 h-11 rounded-full ${tClass.circle} flex items-center justify-center shadow-sm hover:scale-105 transition-transform">
                                 <img src="${mode.icon}" class="w-6 h-6 object-contain" alt="${mode.name}">
                             </div>
-                            <span class="${tClass.label} text-xs font-black px-2.5 py-0.5 rounded-md leading-none tracking-tight shadow-sm">${tierVal}</span>
+                            <span class="${tClass.label} text-xs font-black px-2 py-0.5 rounded-md leading-none tracking-tight shadow-sm">${tierVal}</span>
                         </div>
                     `;
                 }).join('');
@@ -765,7 +765,7 @@
                         <div class="w-44 text-left flex-shrink-0">
                             <span class="font-black text-xl text-green-400 tracking-wide">${player.points}</span>
                         </div>
-                        <div class="min-w-0 flex-1 overflow-x-auto overflow-y-hidden no-scrollbar py-1">
+                        <div class="min-w-0 flex-1 ml-3 overflow-x-auto overflow-y-hidden no-scrollbar py-1">
                             <div class="flex w-max min-w-full items-center gap-2">
                                 ${badgesHtml}
                             </div>
