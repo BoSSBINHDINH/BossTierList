@@ -684,7 +684,7 @@
                 if (rank === 2) rankDisplay = `<span class="text-slate-300 font-black text-2xl">2</span>`;
                 if (rank === 3) rankDisplay = `<span class="text-amber-400 font-black text-2xl">3</span>`;
 
-                const skinUrl = `render.crafty.gg/3d/bust/${player.username}`;
+                const skinUrl = `https://vzge.me/bust/512/${player.username}`;
 
                 const badgesHtml = modes.filter(m => m.id !== 'overall').map(mode => {
                     const tierVal = player.tiers ? player.tiers[mode.id] : null;
