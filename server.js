@@ -145,7 +145,7 @@ app.delete('/api/players/:id', requireAdmin, async (req, res, next) => {
   }
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
+if (!process.env.VERCEL) app.use(express.static(__dirname, { index: 'index.html', dotfiles: 'ignore' }));
 
 app.use((error, _req, res, _next) => {
   if (res.headersSent) return;
