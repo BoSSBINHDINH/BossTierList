@@ -5,7 +5,7 @@ let leaderboardData = [];
 async function fetchLeaderboardFromAppwrite() {
     try {
         // Gọi API công khai của Appwrite (Yêu cầu collection players đã bật quyền Read cho 'Any')
-        const response = await fetch(`https://sgp.cloud.appwrite.io/v1/databases/6abe735d000cdcf9add0/collections/6abe73830021ac77c8ea/documents`, {
+        const response = await fetch(`https://fra.cloud.appwrite.io/v1/databases/6abe735d000cdcf9add0/collections/6abe73830021ac77c8ea/documents`, {
             headers: {
                 'X-Appwrite-Project': '6abe6933000170bafd6d',
                 'Content-Type': 'application/json'
