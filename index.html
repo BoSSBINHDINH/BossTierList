@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BOSS TIER - Bảng Xếp Hạng & Tier List Minecraft PvP</title>
-    <!-- Appwrite Web SDK: kết nối database -->
-    <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -396,15 +394,37 @@
         </div>
     </div>
 
+    <script src="./config.js"></script>
     <script>
-        // Kết nối Appwrite bằng Project ID, Database ID và Collection ID đã cung cấp.
-        const { Client, Databases, Query, ID } = Appwrite;
-        const appwriteClient = new Client()
-            .setEndpoint('https://fra.cloud.appwrite.io/v1')
-            .setProject('6adafa1b002cc5d5d3d6');
-        const appwriteDatabases = new Databases(appwriteClient);
-        const DATABASE_ID = '6adafbea0007227579f3';
-        const COLLECTION_ID = '6adafc2f00178b1baf31';
+        // The Atlas URI and admin key stay on the server. The browser only calls this API.
+        const API_BASE = String(window.BOSSTIER_API_BASE || '').replace(/\/+$/, '');
+
+        async function apiRequest(endpoint, options = {}) {
+            const method = String(options.method || 'GET').toUpperCase();
+            const headers = new Headers(options.headers || {});
+            if (options.body && !headers.has('Content-Type')) {
+                headers.set('Content-Type', 'application/json');
+            }
+            if (!['GET', 'HEAD', 'OPTIONS'].includes(method)) {
+                let adminKey = sessionStorage.getItem('bosstier_admin_key') || '';
+                if (!adminKey) {
+                    adminKey = prompt('Nhập ADMIN_API_KEY để lưu thay đổi:') || '';
+                    if (!adminKey) throw new Error('Đã hủy thao tác vì chưa nhập khóa quản trị.');
+                    sessionStorage.setItem('bosstier_admin_key', adminKey);
+                }
+                headers.set('X-Admin-Key', adminKey);
+            }
+
+            const response = await fetch(`${API_BASE}${endpoint}`, { ...options, method, headers });
+            const text = await response.text();
+            let data = {};
+            try { data = text ? JSON.parse(text) : {}; } catch {}
+            if (!response.ok) {
+                if (response.status === 401) sessionStorage.removeItem('bosstier_admin_key');
+                throw new Error(data.error || `API trả về lỗi HTTP ${response.status}.`);
+            }
+            return data;
+        }
 
         const TIER_POINTS = {
             'HT1': 60, 'LT1': 45, 'HT2': 30, 'LT2': 20, 'HT3': 10,
@@ -449,7 +469,7 @@
             modes.push(...savedModes.filter(mode => !defaultModeIds.has(mode.id)));
         }
 
-        // Đọc dữ liệu trực tiếp từ Appwrite Web SDK; không đặt API key bí mật trong mã frontend.
+        // Đọc dữ liệu từ backend API; không để MongoDB URI hoặc admin key trong frontend.
         let players = [];
         let dataSource = 'loading';
         let uiInitialized = false;
@@ -462,12 +482,10 @@
             return s.replace(/\s+/g, '');
         }
 
-        async function loadPlayersFromAppwrite() {
+        async function loadPlayersFromMongoDB() {
             try {
-                const response = await appwriteDatabases.listDocuments(
-                    DATABASE_ID, COLLECTION_ID, [Query.limit(10000)]
-                );
-                players = response.documents.map(doc => {
+                const response = await apiRequest('/api/players');
+                players = (response.players || []).map(doc => {
                     let tiers = doc.tiers || {};
                     if (typeof tiers === 'string') {
                         try { tiers = JSON.parse(tiers); } catch (_) { tiers = {}; }
@@ -476,7 +494,7 @@
                         Object.entries(tiers || {}).map(([mode, tier]) => [mode, normalizeWebTier(tier)])
                     );
                     return {
-                        id: doc.$id,
+                        id: doc.id,
                         username: doc.username,
                         avatarUrl: `https://render.crafty.gg/3d/bust/${encodeURIComponent(doc.username)}`,
                         region: (doc.region || 'AS').toUpperCase(),
@@ -485,15 +503,15 @@
                         history: Array.isArray(doc.history) ? doc.history : []
                     };
                 });
-                dataSource = 'appwrite';
+                dataSource = 'mongodb';
                 localStorage.setItem('dennis_last_server_data', JSON.stringify(players));
                 const status = document.getElementById('dataStatus');
                 if (status) {
-                    status.innerText = `● Đang đồng bộ Appwrite • ${players.length} người chơi`;
+                    status.innerText = `● Đang đồng bộ MongoDB Atlas • ${players.length} người chơi`;
                     status.className = 'text-xs mt-2 text-green-400';
                 }
             } catch (error) {
-                console.error('[BossTier] Không tải được Appwrite:', error);
+                console.error('[BossTier] Không tải được MongoDB API:', error);
                 const cached = JSON.parse(localStorage.getItem('dennis_last_server_data') || 'null');
                 players = Array.isArray(cached) && cached.length
                     ? cached : defaultPlayers.map(p => ({ ...p, tiers: { ...p.tiers } }));
@@ -501,7 +519,7 @@
                 dataSource = 'fallback';
                 const status = document.getElementById('dataStatus');
                 if (status) {
-                    status.innerText = '● Lỗi Appwrite — kiểm tra quyền Database/Collection';
+                    status.innerText = '● Không kết nối được MongoDB API — kiểm tra cấu hình backend';
                     status.className = 'text-xs mt-2 text-amber-400';
                 }
             }
@@ -515,20 +533,25 @@
             setTimeout(updateIndicatorPosition, 50);
         }
 
-        async function persistPlayerToAppwrite(player) {
+        async function persistPlayerToMongoDB(player) {
             const payload = {
                 username: player.username,
-                tiers: JSON.stringify(player.tiers || {}),
+                tiers: player.tiers || {},
                 region: player.region || 'AS'
             };
             if (player.avatarUrl) payload.avatarUrl = player.avatarUrl;
             if (player.id) {
-                await appwriteDatabases.updateDocument(DATABASE_ID, COLLECTION_ID, player.id, payload);
+                const response = await apiRequest(`/api/players/${encodeURIComponent(player.id)}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(payload)
+                });
+                if (response.player) player.id = response.player.id;
             } else {
-                const created = await appwriteDatabases.createDocument(
-                    DATABASE_ID, COLLECTION_ID, ID.unique(), payload
-                );
-                player.id = created.$id;
+                const response = await apiRequest('/api/players', {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                if (response.player) player.id = response.player.id;
             }
         }
 
@@ -539,8 +562,8 @@
         const TIER_RANKS = ['HT1', 'HT2', 'HT3', 'HT4', 'HT5', 'LT1', 'LT2', 'LT3', 'LT4', 'LT5'];
 
         window.addEventListener('DOMContentLoaded', () => {
-            loadPlayersFromAppwrite();
-            window.setInterval(loadPlayersFromAppwrite, 30000);
+            loadPlayersFromMongoDB();
+            window.setInterval(loadPlayersFromMongoDB, 30000);
         });
 
         window.addEventListener('resize', () => {
@@ -1033,11 +1056,11 @@
                 const previous = players[editIdx] || {};
                 players[editIdx] = { ...previous, username, points, tiers };
                 try {
-                    await persistPlayerToAppwrite(players[editIdx]);
-                    showDatabaseMessage('Đã lưu người chơi lên Appwrite.', true);
+                    await persistPlayerToMongoDB(players[editIdx]);
+                    showDatabaseMessage('Đã lưu người chơi lên MongoDB Atlas.', true);
                 } catch (err) {
-                    console.error('[BossTier] Lỗi lưu Appwrite:', err);
-                    showDatabaseMessage('Không lưu được lên Appwrite. Kiểm tra quyền ghi của Collection.', false);
+                    console.error('[BossTier] Lỗi lưu MongoDB:', err);
+                    showDatabaseMessage(err.message || 'Không lưu được lên MongoDB Atlas.', false);
                 }
             }
             saveAndRefresh();
@@ -1059,14 +1082,14 @@
             if (!confirm(`Bạn có chắc muốn xóa ${username}?`)) return;
             try {
                 if (player && player.id) {
-                    await appwriteDatabases.deleteDocument(DATABASE_ID, COLLECTION_ID, player.id);
+                    await apiRequest(`/api/players/${encodeURIComponent(player.id)}`, { method: 'DELETE' });
                 }
                 players = players.filter(p => p.username !== username);
                 saveAndRefresh();
                 showDatabaseMessage('Đã xóa người chơi.', true);
             } catch (err) {
                 console.error('[BossTier] Không thể xóa người chơi:', err);
-                showDatabaseMessage('Không xóa được trên Appwrite. Kiểm tra quyền xóa của Collection.', false);
+                showDatabaseMessage(err.message || 'Không xóa được người chơi trên MongoDB Atlas.', false);
             }
         }
 
@@ -1076,13 +1099,13 @@
             else renderTierlistMaker();
 
             // Đồng bộ các người chơi đã có document ID khi thao tác đổi tier nhanh.
-            if (dataSource === 'appwrite') {
+            if (dataSource === 'mongodb') {
                 try {
-                    await Promise.all(players.filter(p => p.id).map(p => persistPlayerToAppwrite(p)));
-                    showDatabaseMessage('Dữ liệu đã được đồng bộ lên Appwrite.', true);
+                    await Promise.all(players.filter(p => p.id).map(p => persistPlayerToMongoDB(p)));
+                    showDatabaseMessage('Dữ liệu đã được đồng bộ lên MongoDB Atlas.', true);
                 } catch (err) {
-                    console.error('[BossTier] Lỗi đồng bộ Appwrite:', err);
-                    showDatabaseMessage('Không đồng bộ được. Kiểm tra quyền ghi của Collection.', false);
+                    console.error('[BossTier] Lỗi đồng bộ MongoDB:', err);
+                    showDatabaseMessage(err.message || 'Không đồng bộ được MongoDB Atlas.', false);
                 }
             }
         }
