@@ -38,15 +38,12 @@
 
     <style>
         /* Slightly more compact view, matching the earlier screenshot */
-        body { zoom: 0.97; }
+        body { zoom: 0.97; position: relative; }
+        body::before { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; will-change: transform; background-image: radial-gradient(circle at 50% 0%, rgba(74,222,128,0.05) 0%, rgba(15,23,42,0) 60%), radial-gradient(circle at 90% 80%, rgba(51,65,85,0.4) 0%, transparent 40%); }
         body {
             background-color: #0f172a;
             color: #f8fafc;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(74, 222, 128, 0.05) 0%, rgba(15, 23, 42, 1) 60%),
-                radial-gradient(circle at 90% 80%, rgba(51, 65, 85, 0.4) 0%, transparent 40%);
-            background-attachment: fixed;
         }
 
         ::-webkit-scrollbar {
@@ -183,9 +180,9 @@
         @keyframes iconGlow { 0%,100% { filter: drop-shadow(0 0 3px rgba(250,204,21,.35)); } 50% { filter: drop-shadow(0 0 10px rgba(250,204,21,.85)); } }
 
         .page-enter { animation: fadeUp .55s cubic-bezier(.22,1,.36,1) both; }
-        .float-anim { animation: floaty 4.5s ease-in-out infinite; }
-        .blob-anim { animation: blobPulse 6s ease-in-out infinite; }
-        .glow-anim { animation: iconGlow 2.6s ease-in-out infinite; }
+        .float-anim { animation: floaty 4.5s ease-in-out infinite; will-change: transform; }
+        .blob-anim { animation: blobPulse 8s ease-in-out infinite; will-change: transform, opacity; }
+        .glow-anim { filter: drop-shadow(0 0 6px rgba(250,204,21,.55)); }
 
         /* Hiện dần khi cuộn tới */
         .reveal { opacity: 0; transform: translateY(26px); transition: opacity .75s cubic-bezier(.22,1,.36,1), transform .75s cubic-bezier(.22,1,.36,1); }
@@ -245,7 +242,7 @@
 <body class="min-h-screen flex flex-col antialiased selection:bg-green-500 selection:text-white">
 
     <!-- Navigation Bar -->
-    <nav class="w-full border-b border-slate-800 bg-[#0f172a]/85 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+    <nav class="w-full border-b border-slate-800 bg-[#0f172a]/95 sticky top-0 z-50 shadow-sm">
         <div class="max-w-[1500px] mx-auto px-6 sm:px-10 lg:px-12">
             <div class="flex items-center justify-between h-20">
                 <div class="flex items-center space-x-6 md:space-x-12">
@@ -585,7 +582,7 @@
     </footer>
 
     <!-- MODAL: Edit Player Modal -->
-    <div id="playerModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div id="playerModal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center hidden p-4">
         <div class="bg-slate-900 border border-slate-800 w-full max-w-lg rounded-2xl shadow-2xl p-6 relative">
             <button onclick="closeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white">
                 <i class="fa-solid fa-xmark text-xl"></i>
@@ -623,7 +620,7 @@
     </div>
 
     <!-- MODAL: Player Profile -->
-    <div id="profileModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center hidden p-4" onclick="if(event.target === this) closePlayerProfile()">
+    <div id="profileModal" class="fixed inset-0 bg-black/70 z-[60] flex items-center justify-center hidden p-4" onclick="if(event.target === this) closePlayerProfile()">
         <div class="no-scrollbar bg-[#111a27] border border-slate-800 w-full max-w-[486px] max-h-[92vh] overflow-y-auto rounded-2xl shadow-2xl p-6 sm:p-8 relative">
             <button type="button" onclick="closePlayerProfile()" aria-label="Đóng hồ sơ" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 flex items-center justify-center transition-colors">
                 <i class="fa-solid fa-xmark text-xl"></i>
@@ -773,6 +770,9 @@
                     status.innerText = `● Đang đồng bộ MongoDB Atlas • ${players.length} người chơi`;
                     status.className = 'text-xs mt-2 text-green-400';
                 }
+                const sig = JSON.stringify(players.map(p => [p.id, p.username, p.tiers, p.region]));
+                if (uiInitialized && sig === window.__playersSig) return;
+                window.__playersSig = sig;
             } catch (error) {
                 console.error('[BossTier] Không tải được MongoDB API:', error);
                 const cached = JSON.parse(localStorage.getItem('dennis_last_server_data') || 'null');
@@ -1025,7 +1025,7 @@
                 const t = getTierClass(champ.tiers[m.id]);
                 return `
                 <button onclick="goRankings('${m.id}')" class="hover-card group text-left rounded-2xl border border-slate-700/70 bg-[#162032]/80 p-4 flex items-center gap-3.5">
-                    <img src="https://render.crafty.gg/3d/bust/${encodeURIComponent(champ.username)}" alt="" onerror="this.src='https://vzge.me/bust/512/AxelButt'" class="w-14 h-14 object-contain flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <img loading="lazy" decoding="async" src="https://render.crafty.gg/3d/bust/${encodeURIComponent(champ.username)}" alt="" onerror="this.src='https://vzge.me/bust/512/AxelButt'" class="w-14 h-14 object-contain flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-slate-500"><img src="${m.icon}" alt="" class="w-4 h-4 object-contain">${m.name}</div>
                         <div class="truncate font-extrabold text-white group-hover:text-green-400 transition-colors">${champ.username}</div>
@@ -1279,7 +1279,7 @@
                         <div class="w-14 sm:w-16 text-center flex-shrink-0">${rankDisplay}</div>
                         <div class="w-1/3 flex-shrink-0">
                             <div class="flex min-w-0 items-center space-x-3 sm:space-x-4">
-                                <img src="${skinUrl}" alt="${player.username}" 
+                                <img src="${skinUrl}" alt="${player.username}" loading="lazy" decoding="async" 
                                      onerror="this.src='https://vzge.me/bust/512/AxelButt'"
                                      class="w-14 h-14 sm:w-16 sm:h-16 object-contain flex-shrink-0 drop-shadow-sm">
                                 <div class="min-w-0"><span class="block truncate font-extrabold text-white text-sm sm:text-base group-hover:text-green-400 transition-colors">${player.username}</span><span class="mt-0.5 flex items-center gap-1.5 text-[11px] font-bold" style="color:${playerTitle.color}">${titleIconHtml(playerTitle, 'w-4 h-4')}<span class="truncate">${playerTitle.name}</span></span></div>
@@ -1421,12 +1421,17 @@
         }
 
         function setupSearchListener() {
+            let searchTimer;
             document.getElementById('searchInput').addEventListener('input', (e) => {
-                searchQuery = e.target.value.trim();
-                if (searchQuery && currentPage === 'home') showPage('rankings');
-                currentPlayerPage = 1;
-                window.__animRows = true;
-                renderLeaderboard();
+                const value = e.target.value.trim();
+                clearTimeout(searchTimer);
+                searchTimer = setTimeout(() => {
+                    searchQuery = value;
+                    if (searchQuery && currentPage === 'home') showPage('rankings');
+                    currentPlayerPage = 1;
+                    window.__animRows = true;
+                    renderLeaderboard();
+                }, 160);
             });
         }
 
