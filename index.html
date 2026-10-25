@@ -233,6 +233,42 @@
         .nav-link { position: relative; }
         .player-row { transition: transform .25s cubic-bezier(.22,1,.36,1), background-color .25s, border-color .25s, box-shadow .25s; }
 
+
+        /* Nav: khối nền trượt giữa Home / Rankings */
+        .nav-pill {
+            position: absolute; top: 0; left: 0; z-index: 0; pointer-events: none; opacity: 0;
+            border-radius: .75rem; background: rgba(74,222,128,.13); border: 1px solid rgba(74,222,128,.3);
+            box-shadow: 0 0 18px -4px rgba(74,222,128,.45);
+            transition: transform .5s cubic-bezier(.34,1.3,.5,1), width .5s cubic-bezier(.34,1.3,.5,1), height .3s, opacity .3s;
+            will-change: transform, width;
+        }
+        #navBtnHome i, #navBtnLeaderboard i { transition: transform .45s cubic-bezier(.34,1.56,.64,1); }
+        #navBtnHome:hover i, #navBtnLeaderboard:hover i { transform: scale(1.25) rotate(-8deg); }
+
+        /* Chuyển trang: trượt ra / trượt vào */
+        @keyframes pageInRight { from { opacity: 0; transform: translateX(70px); } to { opacity: 1; transform: none; } }
+        @keyframes pageInLeft { from { opacity: 0; transform: translateX(-70px); } to { opacity: 1; transform: none; } }
+        @keyframes pageOutLeft { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateX(-50px); } }
+        @keyframes pageOutRight { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateX(50px); } }
+        .page-in-right { animation: pageInRight .55s cubic-bezier(.22,1,.36,1) both; }
+        .page-in-left { animation: pageInLeft .55s cubic-bezier(.22,1,.36,1) both; }
+        .page-out-left { animation: pageOutLeft .2s ease-in both; }
+        .page-out-right { animation: pageOutRight .2s ease-in both; }
+
+        /* Top 1-3 trong bảng xếp hạng: nền sáng theo huy chương */
+        .player-row.medal-1, .player-row.medal-2, .player-row.medal-3 { position: relative; overflow: hidden; }
+        .player-row.medal-1 { background-image: linear-gradient(90deg, rgba(251,191,36,.24), rgba(251,191,36,.04) 55%, transparent); border-color: rgba(251,191,36,.5); }
+        .player-row.medal-2 { background-image: linear-gradient(90deg, rgba(203,213,225,.2), rgba(203,213,225,.03) 55%, transparent); border-color: rgba(203,213,225,.4); }
+        .player-row.medal-3 { background-image: linear-gradient(90deg, rgba(251,146,60,.2), rgba(251,146,60,.03) 55%, transparent); border-color: rgba(251,146,60,.42); }
+        .player-row.medal-1:hover { box-shadow: 0 12px 30px -10px rgba(251,191,36,.45); border-color: rgba(251,191,36,.8); }
+        .player-row.medal-2:hover { box-shadow: 0 12px 30px -10px rgba(203,213,225,.35); border-color: rgba(226,232,240,.7); }
+        .player-row.medal-3:hover { box-shadow: 0 12px 30px -10px rgba(251,146,60,.4); border-color: rgba(251,146,60,.75); }
+        .player-row.medal-1::after {
+            content: ''; position: absolute; inset: 0; width: 35%; pointer-events: none;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
+            animation: sheen 4.5s ease-in-out infinite;
+        }
+
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
             .reveal, .stagger > * { opacity: 1 !important; transform: none !important; }
@@ -251,20 +287,25 @@
                         <span class="ml-1 text-[10px] leading-none tracking-[0.18em] text-green-400 font-bold uppercase">PvP Leaderboard</span>
                     </a>
                     
-                    <div class="flex items-center space-x-5 md:space-x-10 text-sm md:text-base font-bold">
-                        <button onclick="showPage('home')" id="navBtnHome" class="text-green-400 font-extrabold flex items-center gap-2 border-b-2 border-green-400 pb-1 transition-all duration-300 whitespace-nowrap">
+                    <div id="navLinks" class="relative flex items-center gap-1 md:gap-2 text-sm md:text-base font-bold">
+                        <span id="navPill" class="nav-pill" aria-hidden="true"></span>
+                        <button onclick="showPage('home')" id="navBtnHome" class="relative z-10 px-3 md:px-4 py-2 rounded-xl text-green-400 font-extrabold flex items-center gap-2 transition-colors duration-300 whitespace-nowrap">
                             <i class="fa-solid fa-house text-sm"></i> Trang chủ
                         </button>
-                        <button onclick="showPage('rankings')" id="navBtnLeaderboard" class="text-slate-400 hover:text-green-400 transition-colors flex items-center gap-2 pb-1 border-b-2 border-transparent whitespace-nowrap">
+                        <button onclick="showPage('rankings')" id="navBtnLeaderboard" class="relative z-10 px-3 md:px-4 py-2 rounded-xl text-slate-400 hover:text-white flex items-center gap-2 transition-colors duration-300 whitespace-nowrap">
                             <i class="fa-solid fa-list-ol text-sm"></i> Bảng Xếp Hạng
                         </button>
-                        <a href="https://discord.gg/CkJpbWY2J" target="_blank" class="hidden sm:flex text-slate-400 hover:text-green-400 transition-colors items-center gap-2 pb-1 border-b-2 border-transparent">
+                        <a href="https://discord.gg/CkJpbWY2J" target="_blank" class="relative z-10 hidden sm:flex px-3 md:px-4 py-2 rounded-xl text-slate-400 hover:text-white transition-colors duration-300 items-center gap-2">
                             <i class="fa-brands fa-discord text-lg"></i> Discord
                         </a>
                     </div>
                 </div>
 
                 <div class="flex items-center space-x-5">
+                    <div id="langSwitch" class="flex rounded-xl border border-slate-700 overflow-hidden text-xs font-black bg-slate-900/80" role="group" aria-label="Language">
+                        <button type="button" data-lang="vi" onclick="setLanguage('vi')" class="px-3 py-1.5">VI</button>
+                        <button type="button" data-lang="en" onclick="setLanguage('en')" class="px-3 py-1.5">EN</button>
+                    </div>
                     <div class="relative w-36 sm:w-72">
                         <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
                         <input id="searchInput" type="text" placeholder="Tìm người chơi..." 
@@ -504,7 +545,7 @@
                         <span class="text-xs text-slate-300 font-bold">SERVER IP</span>
                         <div class="bg-slate-900 border border-slate-700 text-white text-xs font-mono font-bold px-2.5 py-1 rounded-lg flex items-center gap-2">
                             mcpvp.club
-                            <button onclick="navigator.clipboard.writeText('mcpvp.club'); alert('Đã sao chép IP!');" class="text-slate-400 hover:text-white"><i class="fa-regular fa-copy"></i></button>
+                            <button onclick="navigator.clipboard.writeText('mcpvp.club'); alert(tr('Đã sao chép IP!', 'IP copied!'));" class="text-slate-400 hover:text-white"><i class="fa-regular fa-copy"></i></button>
                         </div>
                     </div>
 
@@ -657,6 +698,13 @@
     <script src="./config.js"></script>
     <script>
         // The Atlas URI and admin key stay on the server. The browser only calls this API.
+        let LANG = 'en';
+        try {
+            const saved = localStorage.getItem('bosstier_lang');
+            LANG = saved === 'vi' ? 'vi' : 'en';
+        } catch (_) {}
+        function tr(vi, en) { return LANG === 'en' ? en : vi; }
+
         const API_BASE = String(window.BOSSTIER_API_BASE || '').replace(/\/+$/, '');
 
         async function apiRequest(endpoint, options = {}) {
@@ -668,8 +716,8 @@
             if (!['GET', 'HEAD', 'OPTIONS'].includes(method)) {
                 let adminKey = sessionStorage.getItem('bosstier_admin_key') || '';
                 if (!adminKey) {
-                    adminKey = prompt('Nhập ADMIN_API_KEY để lưu thay đổi:') || '';
-                    if (!adminKey) throw new Error('Đã hủy thao tác vì chưa nhập khóa quản trị.');
+                    adminKey = prompt(tr('Nhập ADMIN_API_KEY để lưu thay đổi:', 'Enter ADMIN_API_KEY to save changes:')) || '';
+                    if (!adminKey) throw new Error(tr('Đã hủy thao tác vì chưa nhập khóa quản trị.', 'Cancelled because no admin key was entered.'));
                     sessionStorage.setItem('bosstier_admin_key', adminKey);
                 }
                 headers.set('X-Admin-Key', adminKey);
@@ -681,7 +729,7 @@
             try { data = text ? JSON.parse(text) : {}; } catch {}
             if (!response.ok) {
                 if (response.status === 401) sessionStorage.removeItem('bosstier_admin_key');
-                throw new Error(data.error || `API trả về lỗi HTTP ${response.status}.`);
+                throw new Error(data.error || tr(`API trả về lỗi HTTP ${response.status}.`, `API returned HTTP error ${response.status}.`));
             }
             return data;
         }
@@ -765,11 +813,7 @@
                 });
                 dataSource = 'mongodb';
                 localStorage.setItem('dennis_last_server_data', JSON.stringify(players));
-                const status = document.getElementById('dataStatus');
-                if (status) {
-                    status.innerText = `● Đang đồng bộ MongoDB Atlas • ${players.length} người chơi`;
-                    status.className = 'text-xs mt-2 text-green-400';
-                }
+                updateDataStatus();
                 const sig = JSON.stringify(players.map(p => [p.id, p.username, p.tiers, p.region]));
                 if (uiInitialized && sig === window.__playersSig) return;
                 window.__playersSig = sig;
@@ -780,11 +824,7 @@
                     ? cached : defaultPlayers.map(p => ({ ...p, tiers: { ...p.tiers } }));
                 players.forEach(p => { p.points = calculatePlayerPoints(p.tiers); });
                 dataSource = 'fallback';
-                const status = document.getElementById('dataStatus');
-                if (status) {
-                    status.innerText = '● Không kết nối được MongoDB API — kiểm tra cấu hình backend';
-                    status.className = 'text-xs mt-2 text-amber-400';
-                }
+                updateDataStatus();
             }
             renderTabs();
             renderLeaderboard();
@@ -825,13 +865,179 @@
 
         const TIER_RANKS = ['HT1', 'HT2', 'HT3', 'HT4', 'HT5', 'LT1', 'LT2', 'LT3', 'LT4', 'LT5'];
 
+        // ===================== LANGUAGE (VI / EN) =====================
+        const I18N_EN = {
+            'BOSS TIER - Bảng Xếp Hạng & Tier List Minecraft PvP': 'BOSS TIER - Minecraft PvP Rankings & Tier List',
+            'Trang chủ': 'Home',
+            'Bảng Xếp Hạng': 'Rankings',
+            'Bảng xếp hạng': 'Rankings',
+            'BOSS TIER xếp hạng người chơi qua các trận test thực tế trong': 'BOSS TIER ranks players through real test matches across',
+            '8 chế độ': '8 gamemodes',
+            '. Mỗi chế độ có 5 bậc, từ High Tier 1 đến Low Tier 5, và điểm của bạn được cộng lại thành một bảng xếp hạng chung.': '. Each gamemode has 5 tiers, from High Tier 1 to Low Tier 5, and your points are combined into one overall leaderboard.',
+            'Xem bảng xếp hạng': 'View rankings',
+            'Cách test tier': 'How to get tested',
+            'Người chơi': 'Players',
+            'Chế độ': 'Gamemodes',
+            'Bậc Tier': 'Tiers',
+            'Top người chơi': 'Top players',
+            'Bảng đầy đủ': 'Full leaderboard',
+            'Đang tải dữ liệu...': 'Loading data...',
+            'Giới thiệu': 'About',
+            'BOSS TIER là gì?': 'What is BOSS TIER?',
+            'BOSS TIER là bảng xếp hạng Minecraft PvP của cộng đồng': 'BOSS TIER is the Minecraft PvP tier list of the',
+            '. Thay vì chỉ dựa vào lời nói, mỗi người chơi được test trực tiếp trong trận đấu thật và nhận bậc tier theo đúng trình độ.': '. Instead of relying on words, every player is tested in a real match and receives a tier that matches their skill.',
+            'Kết quả được đăng công khai trên Discord và tự động cập nhật lên website này, để bất kỳ ai cũng có thể xem ai đang mạnh nhất ở từng chế độ.': 'Results are posted publicly on Discord and automatically updated on this website, so anyone can see who is strongest in each gamemode.',
+            'Tham gia cộng đồng': 'Join the community',
+            'Test thực chiến': 'Real combat tests',
+            'Bậc của bạn được quyết định bằng trận đấu thật với tester, không phải tự khai báo.': 'Your tier is decided by a real match against a tester, not by self-reporting.',
+            'Điểm số rõ ràng': 'Clear scoring',
+            'Mỗi bậc tương ứng một số điểm cố định, tổng điểm quyết định thứ hạng và danh hiệu.': 'Each tier is worth a fixed number of points. Your total decides your rank and title.',
+            'Cập nhật tự động': 'Automatic updates',
+            'Kết quả đăng ở Discord được bot lưu lại, web tự làm mới nên bảng luôn mới.': 'Results posted on Discord are saved by the bot and the site refreshes itself, so the board is always current.',
+            'Cộng đồng PvP': 'PvP community',
+            'Nơi người chơi tìm đối thủ, luyện tập và cùng nhau leo lên từng bậc tier.': 'A place to find opponents, practice and climb the tiers together.',
+            'Chế độ chơi': 'Gamemodes',
+            'Nhà vô địch từng chế độ': 'Champion of each gamemode',
+            'Người có bậc cao nhất ở mỗi chế độ hiện tại.': 'The player with the highest tier in each gamemode right now.',
+            'Cách được test tier': 'How to get tier tested',
+            'Việc test diễn ra trong Discord. Sau mỗi trận, kết quả được đăng ở kênh': 'Testing happens through Discord. After each match, the result is posted in the',
+            'và tự động cập nhật lên bảng xếp hạng này.': 'channel and automatically updated on this leaderboard.',
+            'Vào Discord để đăng ký': 'Join Discord to sign up',
+            'Tham gia Discord của BOSS TIER và đọc luật test.': 'Join the BOSS TIER Discord and read the testing rules.',
+            'Chọn chế độ bạn muốn được test và gửi yêu cầu trong kênh đăng ký.': 'Pick the gamemode you want to be tested in and send a request in the sign-up channel.',
+            'Chờ tester sắp xếp lịch và vào server': 'Wait for a tester to schedule you, then join the server',
+            'Đấu với tester bằng bộ đồ tiêu chuẩn của chế độ đó.': 'Fight the tester using that gamemode’s standard kit.',
+            'Bậc mới của bạn được đăng ở': 'Your new tier is posted in',
+            'và hiện lên hồ sơ trên web.': 'and shows up on your profile on the site.',
+            'Bậc và điểm': 'Tiers and points',
+            'Mỗi chế độ chia 5 bậc, mỗi bậc có High và Low. Điểm của mọi chế độ cộng lại thành điểm tổng.': 'Each gamemode has 5 tiers, each split into High and Low. Points from every gamemode add up to your total.',
+            'Danh hiệu': 'Titles',
+            'Danh hiệu của bạn thay đổi theo tổng điểm ở tất cả chế độ.': 'Your title changes with your total points across all gamemodes.',
+            'Câu hỏi thường gặp': 'Frequently asked questions',
+            'Giải đáp nhanh về tier, điểm và danh hiệu.': 'Quick answers about tiers, points and titles.',
+            'BOSS TIER là bảng xếp hạng Minecraft PvP. Người chơi được test ở nhiều chế độ, nhận bậc từ High Tier 1 đến Low Tier 5, và được xếp hạng chung theo tổng điểm.': 'BOSS TIER is a Minecraft PvP tier list. Players are tested in several gamemodes, earn tiers from High Tier 1 to Low Tier 5, and are ranked together by total points.',
+            'HT1, LT1 và các bậc khác nghĩa là gì?': 'What do HT1, LT1 and the other tiers mean?',
+            'HT là High Tier và LT là Low Tier. Số càng nhỏ thì bậc càng cao: HT1 là cao nhất, LT5 là thấp nhất.': 'HT means High Tier and LT means Low Tier. The lower the number, the higher the tier: HT1 is the highest and LT5 is the lowest.',
+            'Làm sao để được test tier?': 'How do I get tier tested?',
+            'Vào Discord, gửi yêu cầu test ở chế độ bạn muốn và đợi tester sắp xếp trận đấu. Xem mục “Cách được test tier” ở trên.': 'Join Discord, send a test request for the gamemode you want and wait for a tester to arrange the match. See “How to get tier tested” above.',
+            'Điểm tổng được tính thế nào?': 'How is the total score calculated?',
+            'Mỗi bậc tương ứng một số điểm (xem bảng “Bậc và điểm”). Điểm tổng bằng tổng điểm của tất cả chế độ bạn đã được test.': 'Each tier is worth a set number of points (see “Tiers and points”). Your total is the sum of the points from every gamemode you have been tested in.',
+            'Bao lâu thì bảng xếp hạng cập nhật?': 'How often does the leaderboard update?',
+            'Sau khi kết quả được đăng ở #results, bot sẽ lưu vào cơ sở dữ liệu và web tự làm mới khoảng mỗi 30 giây.': 'Once a result is posted in #results, the bot saves it to the database and the site refreshes about every 30 seconds.',
+            'Sẵn sàng leo hạng?': 'Ready to climb the ranks?',
+            'Tham gia Discord BOSS TIER để đăng ký test, tìm đối thủ và theo dõi kết quả ngay khi được đăng.': 'Join the BOSS TIER Discord to sign up for tests, find opponents and follow results as soon as they are posted.',
+            'Vào Discord': 'Join Discord',
+            'Hệ thống xếp hạng PvP mùa giải': 'Seasonal PvP ranking system',
+            'Khám phá thứ hạng và điểm số của các chiến binh hàng đầu trong từng chế độ.': 'Explore the ranks and scores of the top fighters in every gamemode.',
+            'Đang đồng bộ dữ liệu...': 'Syncing data...',
+            'Không tìm thấy người chơi nào': 'No players found',
+            'Hãy thử tìm kiếm tên khác.': 'Try searching for a different name.',
+            'Trước': 'Previous',
+            'Tiếp': 'Next',
+            'Chế độ Drag & Drop: Kéo thả avatar nhân vật vào các bậc Tier tương ứng': 'Drag & Drop mode: drag player avatars into the matching tier rows',
+            'Xuất Ảnh': 'Export image',
+            'Kho Người Chơi Chưa Phân Tier': 'Players without a tier',
+            'Điều khoản': 'Terms',
+            'Bảo mật': 'Privacy',
+            'Chỉnh Sửa Player': 'Edit Player',
+            'Tên Minecraft Username': 'Minecraft username',
+            'Tổng Điểm (Points)': 'Total points',
+            'Cấu hình Tier cho từng Mode': 'Tier setup for each gamemode',
+            'Hủy': 'Cancel',
+            'Lưu lại': 'Save',
+            'Tìm người chơi...': 'Search players...',
+            'Sao chép IP': 'Copy IP',
+            'Đóng hồ sơ': 'Close profile'
+        };
+
+        const i18nTextStore = new WeakMap();
+        function i18nKey(text) { return text.trim().replace(/\s+/g, ' '); }
+
+        function applyStaticLang() {
+            const en = LANG === 'en';
+            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+                acceptNode(n) {
+                    const name = n.parentNode && n.parentNode.nodeName;
+                    return (name === 'SCRIPT' || name === 'STYLE') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+                }
+            });
+            const nodes = [];
+            let n;
+            while ((n = walker.nextNode())) nodes.push(n);
+            nodes.forEach(node => {
+                let orig = i18nTextStore.get(node);
+                if (orig === undefined) {
+                    if (!Object.prototype.hasOwnProperty.call(I18N_EN, i18nKey(node.nodeValue))) return;
+                    orig = node.nodeValue;
+                    i18nTextStore.set(node, orig);
+                }
+                if (en) {
+                    const lead = orig.match(/^\s*/)[0];
+                    const trail = orig.match(/\s*$/)[0];
+                    node.nodeValue = lead + I18N_EN[i18nKey(orig)] + trail;
+                } else {
+                    node.nodeValue = orig;
+                }
+            });
+            document.querySelectorAll('[placeholder],[title],[aria-label]').forEach(el => {
+                el.__i18nAttr = el.__i18nAttr || {};
+                ['placeholder', 'title', 'aria-label'].forEach(attr => {
+                    if (!el.hasAttribute(attr)) return;
+                    if (el.__i18nAttr[attr] === undefined) {
+                        if (!Object.prototype.hasOwnProperty.call(I18N_EN, i18nKey(el.getAttribute(attr)))) return;
+                        el.__i18nAttr[attr] = el.getAttribute(attr);
+                    }
+                    const orig = el.__i18nAttr[attr];
+                    el.setAttribute(attr, en ? I18N_EN[i18nKey(orig)] : orig);
+                });
+            });
+            const titleKey = 'BOSS TIER - Bảng Xếp Hạng & Tier List Minecraft PvP';
+            document.title = en ? I18N_EN[titleKey] : titleKey;
+            document.documentElement.lang = LANG;
+        }
+
+        function updateDataStatus() {
+            const status = document.getElementById('dataStatus');
+            if (!status || dataSource === 'loading') return;
+            if (dataSource === 'mongodb') {
+                status.innerText = tr(`● Đang đồng bộ MongoDB Atlas • ${players.length} người chơi`, `● Synced with MongoDB Atlas • ${players.length} players`);
+                status.className = 'text-xs mt-2 text-green-400';
+            } else {
+                status.innerText = tr('● Không kết nối được MongoDB API — kiểm tra cấu hình backend', '● Could not reach the MongoDB API — check the backend configuration');
+                status.className = 'text-xs mt-2 text-amber-400';
+            }
+        }
+
+        function syncNavState() {
+            document.getElementById('navBtnHome').className = currentPage === 'home' ? NAV_ACTIVE : NAV_IDLE;
+            document.getElementById('navBtnLeaderboard').className = currentPage === 'rankings' ? NAV_ACTIVE : NAV_IDLE;
+            movePill();
+        }
+
+        function setLanguage(lang) {
+            LANG = lang === 'en' ? 'en' : 'vi';
+            try { localStorage.setItem('bosstier_lang', LANG); } catch (_) {}
+            applyStaticLang();
+            document.querySelectorAll('#langSwitch button').forEach(b => {
+                const on = b.dataset.lang === LANG;
+                b.className = 'px-3 py-1.5 transition-colors ' + (on ? 'bg-green-500 text-slate-950' : 'text-slate-400 hover:text-white');
+            });
+            homeStaticBuilt = false;
+            renderHome(false);
+            switchMainView(currentView);
+            syncNavState();
+            setTimeout(movePill, 60);
+            updateDataStatus();
+            if (!document.getElementById('profileModal').classList.contains('hidden')) closePlayerProfile();
+        }
+
         // ===================== HOME PAGE =====================
         let currentPage = 'home';
         let homeStaticBuilt = false;
         let homeAnimated = false;
         let revealObserver = null;
-        const NAV_ACTIVE = 'text-green-400 font-extrabold flex items-center gap-2 border-b-2 border-green-400 pb-1 transition-all duration-300 whitespace-nowrap';
-        const NAV_IDLE = 'text-slate-400 hover:text-green-400 transition-colors flex items-center gap-2 pb-1 border-b-2 border-transparent whitespace-nowrap';
+        const NAV_ACTIVE = 'relative z-10 px-3 md:px-4 py-2 rounded-xl text-green-400 font-extrabold flex items-center gap-2 transition-colors duration-300 whitespace-nowrap';
+        const NAV_IDLE = 'relative z-10 px-3 md:px-4 py-2 rounded-xl text-slate-400 hover:text-white flex items-center gap-2 transition-colors duration-300 whitespace-nowrap';
 
         // Danh hiệu tự tính theo tổng điểm
         const TITLE_ICON_BASE = 'https://mctiers.gg/titles/';
@@ -889,28 +1095,62 @@
             requestAnimationFrame(step);
         }
 
+        let pageSwitchToken = 0;
+        let pagesReady = false;
+
+        function movePill() {
+            const pill = document.getElementById('navPill');
+            const active = document.getElementById(currentPage === 'home' ? 'navBtnHome' : 'navBtnLeaderboard');
+            if (!pill || !active) return;
+            if (!pill.dataset.init) {
+                pill.style.transition = 'none';
+                pill.dataset.init = '1';
+                requestAnimationFrame(() => requestAnimationFrame(() => { pill.style.transition = ''; }));
+            }
+            pill.style.opacity = '1';
+            pill.style.width = active.offsetWidth + 'px';
+            pill.style.height = active.offsetHeight + 'px';
+            pill.style.transform = `translate(${active.offsetLeft}px, ${active.offsetTop}px)`;
+        }
+        window.addEventListener('resize', movePill);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(movePill);
+
         function showPage(page, noPush) {
-            currentPage = page;
             const home = document.getElementById('homePage');
             const rank = document.getElementById('rankingsPage');
-            home.classList.toggle('hidden', page !== 'home');
-            rank.classList.toggle('hidden', page !== 'rankings');
-            document.getElementById('navBtnHome').className = page === 'home' ? NAV_ACTIVE : NAV_IDLE;
-            const target = page === 'home' ? home : rank;
-            target.classList.remove('page-enter');
-            void target.offsetWidth;
-            target.classList.add('page-enter');
-            if (page === 'home') {
-                document.getElementById('navBtnLeaderboard').className = NAV_IDLE;
-                setupReveal();
-                renderHome(true);
-            } else {
-                window.__animRows = true;
-                switchMainView(currentView);
-                setTimeout(updateIndicatorPosition, 50);
-            }
+            const from = currentPage;
+            const outEl = from === 'home' ? home : rank;
+            const inEl = page === 'home' ? home : rank;
+            const token = ++pageSwitchToken;
+            const animateSwitch = pagesReady && from !== page;
+            currentPage = page;
+            syncNavState();
             if (!noPush && location.hash !== '#' + page) history.pushState(null, '', '#' + page);
-            window.scrollTo(0, 0);
+
+            const enter = () => {
+                if (token !== pageSwitchToken) return;
+                home.classList.toggle('hidden', page !== 'home');
+                rank.classList.toggle('hidden', page !== 'rankings');
+                ['page-out-left', 'page-out-right', 'page-in-left', 'page-in-right'].forEach(c => { home.classList.remove(c); rank.classList.remove(c); });
+                void inEl.offsetWidth;
+                inEl.classList.add(page === 'rankings' ? 'page-in-right' : 'page-in-left');
+                if (page === 'home') {
+                    setupReveal();
+                    renderHome(true);
+                } else {
+                    window.__animRows = true;
+                    switchMainView(currentView);
+                    setTimeout(updateIndicatorPosition, 50);
+                }
+                window.scrollTo(0, 0);
+                pagesReady = true;
+            };
+            if (animateSwitch) {
+                outEl.classList.add(page === 'rankings' ? 'page-out-left' : 'page-out-right');
+                setTimeout(enter, 190);
+            } else {
+                enter();
+            }
         }
 
         function goRankings(modeId) {
@@ -961,7 +1201,7 @@
                 <div style="--i:${i}" class="flex items-center justify-between rounded-xl border px-4 py-2.5 hover:translate-x-1.5 hover:brightness-125 transition-all duration-300 ${r.cls}">
                     <span class="font-extrabold text-sm"><i class="fa-solid fa-trophy mr-2 text-xs opacity-80"></i>Tier ${r.n}</span>
                     <span class="text-[11px] font-bold text-slate-300 flex items-center gap-4">
-                        <span>HT${r.n} · ${TIER_POINTS['HT' + r.n]} điểm</span><span>LT${r.n} · ${TIER_POINTS['LT' + r.n]} điểm</span>
+                        <span>HT${r.n} · ${TIER_POINTS['HT' + r.n]} ${tr('điểm', 'pts')}</span><span>LT${r.n} · ${TIER_POINTS['LT' + r.n]} ${tr('điểm', 'pts')}</span>
                     </span>
                 </div>`).join('');
 
@@ -970,7 +1210,7 @@
                 <div style="--i:${i}" class="group">
                     <div class="flex items-center justify-between text-xs font-bold mb-1.5">
                         <span class="flex items-center gap-2 text-slate-100">${titleIconHtml(t, 'w-5 h-5 group-hover:scale-125 transition-transform duration-300')}${t.name}</span>
-                        <span class="text-slate-500">${t.min ? t.min + '+ điểm' : 'Dưới 10 điểm'}</span>
+                        <span class="text-slate-500">${t.min ? t.min + tr('+ điểm', '+ pts') : tr('Dưới 10 điểm', 'Under 10 pts')}</span>
                     </div>
                     <div class="h-1.5 rounded-full bg-slate-800 overflow-hidden"><div class="bar h-full rounded-full" style="width:${Math.max(6, Math.min(100, (t.min / maxPts) * 100))}%;background:${t.color}"></div></div>
                 </div>`).join('');
@@ -986,26 +1226,28 @@
             const doAnimate = !!animate || (!homeAnimated && players.length > 0);
             if (players.length) homeAnimated = true;
 
-            const top = [...players].sort((a, b) => b.points - a.points).slice(0, 3);
+            const top = [...players].sort((a, b) => b.points - a.points).slice(0, 5);
             const medal = [
                 'from-amber-400/25 to-transparent border-amber-400/40',
                 'from-slate-300/20 to-transparent border-slate-400/40',
-                'from-orange-400/20 to-transparent border-orange-500/40'
+                'from-orange-400/20 to-transparent border-orange-500/40',
+                'from-sky-400/10 to-transparent border-slate-600/50',
+                'from-sky-400/10 to-transparent border-slate-600/50'
             ];
             const box = document.getElementById('homeTopPlayers');
             if (!top.length) {
-                box.innerHTML = '<div class="py-16 text-center text-slate-500 text-sm">Chưa có dữ liệu người chơi.</div>';
+                box.innerHTML = '<div class="py-16 text-center text-slate-500 text-sm">' + tr('Chưa có dữ liệu người chơi.', 'No player data yet.') + '</div>';
             } else {
                 box.innerHTML = top.map((p, i) => {
                     const title = getPlayerTitle(p.points);
                     const name = JSON.stringify(p.username).replace(/"/g, '&quot;');
                     return `
                     <div onclick="openPlayerProfile(${name})" style="--i:${i}" class="top-card ${i === 0 ? 'first' : ''} ${doAnimate ? 'anim-in' : ''} group cursor-pointer rounded-2xl border bg-gradient-to-r ${medal[i]} bg-slate-900/50 hover:bg-slate-900/80 p-3 sm:p-4 flex flex-wrap items-center gap-x-4 gap-y-3">
-                        <div class="w-9 text-center text-2xl font-black ${i === 0 ? 'text-amber-300' : i === 1 ? 'text-slate-200' : 'text-orange-300'}">${i + 1}</div>
+                        <div class="w-9 text-center text-2xl font-black ${['text-amber-300', 'text-slate-200', 'text-orange-300', 'text-slate-400', 'text-slate-400'][i]}">${i + 1}</div>
                         <img src="https://render.crafty.gg/3d/bust/${encodeURIComponent(p.username)}" alt="" onerror="this.src='https://vzge.me/bust/512/AxelButt'" class="w-14 h-14 object-contain drop-shadow flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                         <div class="min-w-0 flex-1 basis-40">
                             <div class="truncate text-lg font-extrabold text-white group-hover:text-green-400 transition-colors">${p.username}</div>
-                            <div class="text-xs font-bold flex items-center gap-1.5 mt-0.5">${titleIconHtml(title, 'w-5 h-5 ' + (i === 0 ? 'glow-anim' : ''))}<span style="color:${title.color}">${title.name}</span><span class="text-slate-500 font-semibold">(${p.points} điểm)</span></div>
+                            <div class="text-xs font-bold flex items-center gap-1.5 mt-0.5">${titleIconHtml(title, 'w-5 h-5 ' + (i === 0 ? 'glow-anim' : ''))}<span style="color:${title.color}">${title.name}</span><span class="text-slate-500 font-semibold">(${p.points} ${tr('điểm', 'pts')})</span></div>
                         </div>
                         <span class="text-[11px] font-black px-2 py-1 rounded-md bg-slate-800/80 border border-slate-600/60 text-slate-300">${p.region || 'AS'}</span>
                         <div class="w-full sm:w-auto flex items-start gap-1.5 overflow-x-auto no-scrollbar">${homeMiniBadges(p)}</div>
@@ -1020,7 +1262,7 @@
                     .sort((a, b) => TIER_RANKS.indexOf(a.tiers[m.id]) - TIER_RANKS.indexOf(b.tiers[m.id]) || b.points - a.points);
                 const champ = ranked[0];
                 if (!champ) {
-                    return `<div class="rounded-2xl border border-dashed border-slate-700/70 bg-[#162032]/50 p-5 flex items-center gap-3 text-slate-500 text-sm"><img src="${m.icon}" alt="" class="w-8 h-8 object-contain opacity-40">${m.name}: chưa có dữ liệu</div>`;
+                    return `<div class="rounded-2xl border border-dashed border-slate-700/70 bg-[#162032]/50 p-5 flex items-center gap-3 text-slate-500 text-sm"><img src="${m.icon}" alt="" class="w-8 h-8 object-contain opacity-40">${m.name}: ${tr('chưa có dữ liệu', 'no data yet')}</div>`;
                 }
                 const t = getTierClass(champ.tiers[m.id]);
                 return `
@@ -1029,7 +1271,7 @@
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-slate-500"><img src="${m.icon}" alt="" class="w-4 h-4 object-contain">${m.name}</div>
                         <div class="truncate font-extrabold text-white group-hover:text-green-400 transition-colors">${champ.username}</div>
-                        <div class="text-[11px] text-slate-500 font-semibold">${ranked.length} người được xếp hạng</div>
+                        <div class="text-[11px] text-slate-500 font-semibold">${ranked.length} ${tr('người được xếp hạng', 'ranked players')}</div>
                     </div>
                     <span class="${t.label} text-xs font-black px-2.5 py-1 rounded-lg">${champ.tiers[m.id]}</span>
                 </button>`;
@@ -1056,6 +1298,11 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            applyStaticLang();
+            document.querySelectorAll('#langSwitch button').forEach(b => {
+                const on = b.dataset.lang === LANG;
+                b.className = 'px-3 py-1.5 transition-colors ' + (on ? 'bg-green-500 text-slate-950' : 'text-slate-400 hover:text-white');
+            });
             showPage(pageFromHash(), true);
             loadPlayersFromMongoDB();
             window.setInterval(loadPlayersFromMongoDB, 30000);
@@ -1076,16 +1323,14 @@
             if (view === 'leaderboard') {
                 lbView.classList.remove('hidden');
                 tlView.classList.add('hidden');
-                btnLb.className = "text-green-400 font-extrabold flex items-center gap-2 border-b-2 border-green-400 pb-1 transition-all duration-300";
-                title.innerText = "Bảng Xếp Hạng";
-                subtitle.innerText = "Khám phá thứ hạng và điểm số của các chiến binh hàng đầu trong từng chế độ.";
+                title.innerText = tr("Bảng Xếp Hạng", "Rankings");
+                subtitle.innerText = tr("Khám phá thứ hạng và điểm số của các chiến binh hàng đầu trong từng chế độ.", "Explore the ranks and scores of the top fighters in every gamemode.");
                 renderLeaderboard();
             } else {
                 lbView.classList.add('hidden');
                 tlView.classList.remove('hidden');
-                btnLb.className = "text-slate-400 hover:text-green-400 transition-colors flex items-center gap-2 pb-1";
                 title.innerText = "Tier List Maker";
-                subtitle.innerText = `Kéo thả xếp hạng người chơi cho Chế độ: ${activeTab.toUpperCase()}`;
+                subtitle.innerText = tr(`Kéo thả xếp hạng người chơi cho Chế độ: ${activeTab.toUpperCase()}`, `Drag and drop to rank players for gamemode: ${activeTab.toUpperCase()}`);
                 renderTierlistMaker();
             }
         }
@@ -1153,7 +1398,7 @@
             if (currentView === 'leaderboard') {
                 renderLeaderboard();
             } else {
-                document.getElementById('viewSubtitle').innerText = `Kéo thả xếp hạng người chơi cho Chế độ: ${activeTab.toUpperCase()}`;
+                document.getElementById('viewSubtitle').innerText = tr(`Kéo thả xếp hạng người chơi cho Chế độ: ${activeTab.toUpperCase()}`, `Drag and drop to rank players for gamemode: ${activeTab.toUpperCase()}`);
                 renderTierlistMaker();
             }
         }
@@ -1188,8 +1433,8 @@
             currentPlayerPage = Math.min(Math.max(1, currentPlayerPage), totalPages);
             controls.classList.toggle('hidden', totalItems <= PLAYERS_PER_PAGE);
             info.textContent = totalItems
-                ? `Hiển thị ${Math.min((currentPlayerPage - 1) * PLAYERS_PER_PAGE + 1, totalItems)}–${Math.min(currentPlayerPage * PLAYERS_PER_PAGE, totalItems)} / ${totalItems} người chơi`
-                : 'Không có người chơi';
+                ? tr(`Hiển thị ${Math.min((currentPlayerPage - 1) * PLAYERS_PER_PAGE + 1, totalItems)}–${Math.min(currentPlayerPage * PLAYERS_PER_PAGE, totalItems)} / ${totalItems} người chơi`, `Showing ${Math.min((currentPlayerPage - 1) * PLAYERS_PER_PAGE + 1, totalItems)}–${Math.min(currentPlayerPage * PLAYERS_PER_PAGE, totalItems)} of ${totalItems} players`)
+                : tr('Không có người chơi', 'No players')
             indicator.textContent = `${currentPlayerPage} / ${totalPages}`;
             prev.disabled = currentPlayerPage <= 1;
             next.disabled = currentPlayerPage >= totalPages;
@@ -1275,14 +1520,14 @@
                 }).join('');
 
                 return `
-                    <div style="--i:${idx}" class="player-row ${window.__animRows ? 'row-anim' : ''} group flex items-center px-8 py-4 cursor-pointer" role="button" tabindex="0" aria-label="Xem hồ sơ ${player.username}" onclick="openPlayerProfile('${player.username}')" onkeydown="if(event.target===event.currentTarget&&(event.key==='Enter'||event.key===' ')){event.preventDefault();openPlayerProfile('${player.username}')}">
+                    <div style="--i:${idx}" class="player-row ${window.__animRows ? 'row-anim' : ''} ${rank <= 3 ? 'medal-' + rank : ''} group flex items-center px-8 py-4 cursor-pointer" role="button" tabindex="0" aria-label="${tr('Xem hồ sơ', 'View profile of')} ${player.username}" onclick="openPlayerProfile('${player.username}')" onkeydown="if(event.target===event.currentTarget&&(event.key==='Enter'||event.key===' ')){event.preventDefault();openPlayerProfile('${player.username}')}">
                         <div class="w-14 sm:w-16 text-center flex-shrink-0">${rankDisplay}</div>
                         <div class="w-1/3 flex-shrink-0">
                             <div class="flex min-w-0 items-center space-x-3 sm:space-x-4">
                                 <img src="${skinUrl}" alt="${player.username}" loading="lazy" decoding="async" 
                                      onerror="this.src='https://vzge.me/bust/512/AxelButt'"
                                      class="w-14 h-14 sm:w-16 sm:h-16 object-contain flex-shrink-0 drop-shadow-sm">
-                                <div class="min-w-0"><span class="block truncate font-extrabold text-white text-sm sm:text-base group-hover:text-green-400 transition-colors">${player.username}</span><span class="mt-0.5 flex items-center gap-1.5 text-[11px] font-bold" style="color:${playerTitle.color}">${titleIconHtml(playerTitle, 'w-4 h-4')}<span class="truncate">${playerTitle.name}</span></span></div>
+                                <div class="min-w-0"><span class="block truncate font-extrabold text-white text-sm sm:text-base group-hover:text-green-400 transition-colors">${player.username}</span><span class="mt-0.5 flex items-center gap-1.5 text-[11px] font-bold" style="color:${playerTitle.color}">${titleIconHtml(playerTitle, 'w-4 h-4 ' + (rank === 1 ? 'glow-anim' : ''))}<span class="truncate">${playerTitle.name}</span></span></div>
                             </div>
                         </div>
                         <div class="w-44 text-left flex-shrink-0">
@@ -1347,7 +1592,7 @@
                         `;
                     }).join('')}
                 </div>
-                ${filtered.length === 0 && searchQuery ? `<p class="mt-3 text-center text-xs text-slate-500">Không tìm thấy người chơi phù hợp trong ${mode ? mode.name : activeTab.toUpperCase()}.</p>` : ''}
+                ${filtered.length === 0 && searchQuery ? `<p class="mt-3 text-center text-xs text-slate-500">${tr('Không tìm thấy người chơi phù hợp trong', 'No matching players found in')} ${mode ? mode.name : activeTab.toUpperCase()}.</p>` : ''}
             `;
         }
 
@@ -1447,16 +1692,16 @@
                     </div>
                     <select id="tier_select_${m.id}" onchange="updateModalCalculatedPoints()" class="bg-slate-900 border border-slate-700 text-xs text-white rounded-lg px-2 py-1 focus:outline-none focus:border-green-400 font-bold">
                         <option value="">-- None --</option>
-                        <option value="HT1">HT1 (60đ)</option>
-                        <option value="HT2">HT2 (30đ)</option>
-                        <option value="HT3">HT3 (10đ)</option>
-                        <option value="HT4">HT4 (4đ)</option>
-                        <option value="HT5">HT5 (2đ)</option>
-                        <option value="LT1">LT1 (45đ)</option>
-                        <option value="LT2">LT2 (20đ)</option>
-                        <option value="LT3">LT3 (6đ)</option>
-                        <option value="LT4">LT4 (3đ)</option>
-                        <option value="LT5">LT5 (1đ)</option>
+                        <option value="HT1">HT1 (60${tr('đ', ' pts')})</option>
+                        <option value="HT2">HT2 (30${tr('đ', ' pts')})</option>
+                        <option value="HT3">HT3 (10${tr('đ', ' pts')})</option>
+                        <option value="HT4">HT4 (4${tr('đ', ' pts')})</option>
+                        <option value="HT5">HT5 (2${tr('đ', ' pts')})</option>
+                        <option value="LT1">LT1 (45${tr('đ', ' pts')})</option>
+                        <option value="LT2">LT2 (20${tr('đ', ' pts')})</option>
+                        <option value="LT3">LT3 (6${tr('đ', ' pts')})</option>
+                        <option value="LT4">LT4 (3${tr('đ', ' pts')})</option>
+                        <option value="LT5">LT5 (1${tr('đ', ' pts')})</option>
                     </select>
                 </div>
             `).join('');
@@ -1493,7 +1738,7 @@
                     const tier = player.tiers && player.tiers[mode.id];
                     const tClass = tier ? getTierClass(tier) : { circle: 'tier-circle-empty', label: 'tier-label-empty' };
                     return `
-                        <div title="${mode.name}: ${tier || 'Chưa có tier'}" class="flex min-w-[42px] shrink-0 flex-col items-center gap-1.5">
+                        <div title="${mode.name}: ${tier || tr('Chưa có tier', 'No tier')}" class="flex min-w-[42px] shrink-0 flex-col items-center gap-1.5">
                             <div class="w-10 h-10 rounded-full ${tClass.circle} flex items-center justify-center">
                                 <img src="${mode.icon}" alt="${mode.name}" class="w-5 h-5 object-contain ${tier ? '' : 'opacity-50'}">
                             </div>
@@ -1529,7 +1774,7 @@
                 const idx = players.findIndex(p => p.username === editUser);
                 if (idx !== -1) {
                     const p = players[idx];
-                    modalTitle.innerText = `Sửa thông tin: ${p.username}`;
+                    modalTitle.innerText = tr(`Sửa thông tin: ${p.username}`, `Edit player: ${p.username}`);
                     editIndexInput.value = idx;
                     usernameInput.value = p.username;
 
@@ -1564,10 +1809,10 @@
                 players[editIdx] = { ...previous, username, points, tiers };
                 try {
                     await persistPlayerToMongoDB(players[editIdx]);
-                    showDatabaseMessage('Đã lưu người chơi lên MongoDB Atlas.', true);
+                    showDatabaseMessage(tr('Đã lưu người chơi lên MongoDB Atlas.', 'Player saved to MongoDB Atlas.'), true);
                 } catch (err) {
                     console.error('[BossTier] Lỗi lưu MongoDB:', err);
-                    showDatabaseMessage(err.message || 'Không lưu được lên MongoDB Atlas.', false);
+                    showDatabaseMessage(err.message || tr('Không lưu được lên MongoDB Atlas.', 'Could not save to MongoDB Atlas.'), false);
                 }
             }
             saveAndRefresh();
@@ -1586,17 +1831,17 @@
 
         async function deletePlayer(username) {
             const player = players.find(p => p.username === username);
-            if (!confirm(`Bạn có chắc muốn xóa ${username}?`)) return;
+            if (!confirm(tr(`Bạn có chắc muốn xóa ${username}?`, `Are you sure you want to delete ${username}?`))) return;
             try {
                 if (player && player.id) {
                     await apiRequest(`/api/players/${encodeURIComponent(player.id)}`, { method: 'DELETE' });
                 }
                 players = players.filter(p => p.username !== username);
                 saveAndRefresh();
-                showDatabaseMessage('Đã xóa người chơi.', true);
+                showDatabaseMessage(tr('Đã xóa người chơi.', 'Player deleted.'), true);
             } catch (err) {
                 console.error('[BossTier] Không thể xóa người chơi:', err);
-                showDatabaseMessage(err.message || 'Không xóa được người chơi trên MongoDB Atlas.', false);
+                showDatabaseMessage(err.message || tr('Không xóa được người chơi trên MongoDB Atlas.', 'Could not delete the player on MongoDB Atlas.'), false);
             }
         }
 
@@ -1609,10 +1854,10 @@
             if (dataSource === 'mongodb') {
                 try {
                     await Promise.all(players.filter(p => p.id).map(p => persistPlayerToMongoDB(p)));
-                    showDatabaseMessage('Dữ liệu đã được đồng bộ lên MongoDB Atlas.', true);
+                    showDatabaseMessage(tr('Dữ liệu đã được đồng bộ lên MongoDB Atlas.', 'Data synced to MongoDB Atlas.'), true);
                 } catch (err) {
                     console.error('[BossTier] Lỗi đồng bộ MongoDB:', err);
-                    showDatabaseMessage(err.message || 'Không đồng bộ được MongoDB Atlas.', false);
+                    showDatabaseMessage(err.message || tr('Không đồng bộ được MongoDB Atlas.', 'Could not sync with MongoDB Atlas.'), false);
                 }
             }
         }
