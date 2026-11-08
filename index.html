@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <link rel="preload" as="image" href="https://i.ibb.co/vvknY8WD/bosstier-cropped.png">
-    <link rel="icon" href="https://i.ibb.co/vvknY8WD/bosstier-cropped.png">
+    <link rel="icon" href="https://i.ibb.co/XkKyrSct/Boss-Tier-big.png">
     <script>try { if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('intro-on'); } catch (e) {}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,9 +30,9 @@
                         greenAccent: '#4ade80',
                         greenDark: '#16a34a',
                         greenLight: '#bbf7d0',
-                        darkBg: '#0f172a',
-                        cardDark: '#1e293b',
-                        borderDark: '#334155'
+                        darkBg: '#10161d',
+                        cardDark: '#121822',
+                        borderDark: '#1f2938'
                     }
                 }
             }
@@ -42,9 +42,9 @@
     <style>
         /* Slightly more compact view, matching the earlier screenshot */
         body { zoom: 0.97; position: relative; }
-        body::before { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; will-change: transform; background-image: radial-gradient(circle at 50% 0%, rgba(74,222,128,0.05) 0%, rgba(15,23,42,0) 60%), radial-gradient(circle at 90% 80%, rgba(51,65,85,0.4) 0%, transparent 40%); }
+        body::before { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; will-change: transform; background-image: radial-gradient(circle at 50% 0%, rgba(74,222,128,0.05) 0%, rgba(15,23,42,0) 60%), radial-gradient(circle at 90% 80%, rgba(30,41,59,0.22) 0%, transparent 40%); }
         body {
-            background-color: #0f172a;
+            background-color: #10161d;
             color: #f8fafc;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
@@ -53,10 +53,10 @@
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #0f172a;
+            background: #10161d;
         }
         ::-webkit-scrollbar-thumb {
-            background: #334155;
+            background: #1f2938;
             border-radius: 9999px;
         }
         ::-webkit-scrollbar-thumb:hover {
@@ -88,14 +88,14 @@
         .player-row {
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             transform-origin: center;
-            border: 1px solid #334155;
-            background-color: rgba(30, 41, 59, 0.5);
+            border: 1px solid #1f2938;
+            background-color: rgba(20, 27, 38, 0.9);
             border-radius: 1rem;
             margin-bottom: 12px;
         }
         .player-row:hover {
             transform: scale(1.01);
-            background-color: #1e293b !important;
+            background-color: #121822 !important;
             border-color: #4ade80;
             box-shadow: 0 10px 25px -5px rgba(74, 222, 128, 0.15), 0 8px 10px -6px rgba(74, 222, 128, 0.1);
             z-index: 20;
@@ -125,9 +125,9 @@
         }
 
         .mode-btn {
-            background-color: #162032;
-            border: 1px solid #334155;
-            border-bottom: 1px solid #334155;
+            background-color: #141b26;
+            border: 1px solid #1f2938;
+            border-bottom: 1px solid #1f2938;
             border-top-left-radius: 0.85rem;
             border-top-right-radius: 0.85rem;
             border-bottom-left-radius: 0;
@@ -139,7 +139,7 @@
         }
 
         .mode-btn:hover {
-            background-color: #1e293b;
+            background-color: #121822;
             border-color: #4ade80;
             box-shadow: 0 0 12px rgba(74, 222, 128, 0.2);
             z-index: 40;
@@ -164,9 +164,9 @@
         }
 
         .mode-btn.active {
-            background-color: #1e293b;
-            border: 1px solid #334155;
-            border-bottom: 1px solid #1e293b;
+            background-color: #121822;
+            border: 1px solid #1f2938;
+            border-bottom: 1px solid #121822;
             z-index: 30;
             box-shadow: none;
         }
@@ -330,7 +330,7 @@
             font-style: italic; font-weight: 900; font-size: 34px; transform-origin: bottom; }
         .podium-bar small { position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; font-size: 12px; font-style: normal; font-weight: 800; opacity: .85; }
         .bar-1 { height: 168px; background: linear-gradient(180deg, #fde68a 0%, #f59e0b 55%, #b45309 100%); color: #3b2400; box-shadow: 0 0 40px -6px rgba(251,191,36,.6); }
-        .bar-2 { height: 128px; background: linear-gradient(180deg, #e2e8f0 0%, #94a3b8 55%, #475569 100%); color: #1e293b; box-shadow: 0 0 30px -8px rgba(203,213,225,.45); }
+        .bar-2 { height: 128px; background: linear-gradient(180deg, #e2e8f0 0%, #94a3b8 55%, #475569 100%); color: #121822; box-shadow: 0 0 30px -8px rgba(203,213,225,.45); }
         .bar-3 { height: 100px; background: linear-gradient(180deg, #fdba74 0%, #ea8a2b 55%, #9a3412 100%); color: #3a1a05; box-shadow: 0 0 30px -8px rgba(251,146,60,.5); }
         .podium-bar::after { content: ''; position: absolute; top: 0; bottom: 0; width: 45%; left: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent); animation: sheen 3.8s ease-in-out infinite; }
         .crown-anim { color: #fbbf24; font-size: 26px; margin-bottom: 2px; animation: floaty 2.6s ease-in-out infinite; filter: drop-shadow(0 0 10px rgba(251,191,36,.8)); }
@@ -370,7 +370,7 @@
         .step { position: relative; display: flex; flex-direction: row; gap: 14px; }
         @media (min-width: 1024px) { .step { flex-direction: column; align-items: flex-start; gap: 14px; } }
         .step-dot { position: relative; z-index: 1; flex-shrink: 0; width: 38px; height: 38px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px;
-            background: #0f172a; border: 2px solid rgba(74,222,128,.55); color: #86efac; transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
+            background: #10161d; border: 2px solid rgba(74,222,128,.55); color: #86efac; transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
         .step:hover .step-dot { transform: scale(1.18); box-shadow: 0 0 18px rgba(74,222,128,.6); }
         .step-card { flex: 1; border-radius: 14px; border: 1px solid rgba(51,65,85,.8); background: rgba(15,23,42,.55); padding: 14px; font-size: 13px; line-height: 1.55; color: #cbd5e1; transition: border-color .3s, transform .3s, background-color .3s; }
         .reveal:not(.in) .anim-rise, .reveal:not(.in) .anim-drop, .reveal:not(.in) .anim-in { animation-play-state: paused; }
@@ -419,7 +419,7 @@
 
 
         /* ===== Tab trượt kiểu video: khối sáng chạy theo tab đang chọn và theo chuột ===== */
-        #activeIndicator { transition: transform .5s cubic-bezier(.16,1,.3,1), width .5s cubic-bezier(.16,1,.3,1); }
+        #activeIndicator { transition: none; }
         #tabHover { display: none; }
         .mode-btn:hover { transform: none; }
         .mode-btn, .mode-btn.active { transition: background-color .3s ease, border-color .3s ease, box-shadow .3s ease; }
@@ -431,6 +431,76 @@
         /* Thanh trên cùng: khối sáng trượt theo chuột */
         .nav-pill.hovering { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.14); box-shadow: none; }
         .nav-pill { transition: transform .45s cubic-bezier(.16,1,.3,1), width .45s cubic-bezier(.16,1,.3,1), height .3s, opacity .3s, background-color .3s, border-color .3s; }
+
+
+        /* TIER COLORS (HT / LT) */
+        .tier-circle-ht1 { border: 3px solid rgba(232,186,58,.6); background-color: rgba(10,14,22,.55); --glow: #e8ba3a; }
+        .tier-label-ht1 { background-color: #1e2634; color: #e8ba3a; }
+        .tier-circle-lt1 { border: 3px solid rgba(200,186,58,.5); background-color: rgba(10,14,22,.55); --glow: #c8ba3a; }
+        .tier-label-lt1 { background-color: #1e2634; color: #c8ba3a; }
+        .tier-circle-ht2 { border: 3px solid #8fb0d8; background-color: rgba(10,14,22,.55); --glow: #8fb0d8; }
+        .tier-label-ht2 { background-color: #2b3a52; color: #c4d3e7; }
+        .tier-circle-lt2 { border: 3px solid #6b7a94; background-color: rgba(10,14,22,.55); --glow: #6b7a94; }
+        .tier-label-lt2 { background-color: #1e2634; color: #a0a7b2; }
+        .tier-circle-ht3 { border: 3px solid #f89f5a; background-color: rgba(10,14,22,.55); --glow: #f89f5a; }
+        .tier-label-ht3 { background-color: #6b4b36; color: #f89f5a; }
+        .tier-circle-lt3 { border: 3px solid #c67b42; background-color: rgba(10,14,22,.55); --glow: #c67b42; }
+        .tier-label-lt3 { background-color: #593722; color: #c67b42; }
+        .tier-circle-ht4 { border: 3px solid #81749a; background-color: rgba(10,14,22,.55); --glow: #81749a; }
+        .tier-label-ht4 { background-color: #303144; color: #9a8ab8; }
+        .tier-circle-lt4 { border: 3px solid #5f5a7d; background-color: rgba(10,14,22,.55); --glow: #5f5a7d; }
+        .tier-label-lt4 { background-color: #262839; color: #7a74a0; }
+        .tier-circle-ht5 { border: 3px solid #6b7b8e; background-color: rgba(10,14,22,.55); --glow: #6b7b8e; }
+        .tier-label-ht5 { background-color: #222b38; color: #8795a8; }
+        .tier-circle-lt5 { border: 3px solid #4a5666; background-color: rgba(10,14,22,.55); --glow: #4a5666; }
+        .tier-label-lt5 { background-color: #1c232e; color: #6f7d90; }
+        .tier-badge .tier-c, .tier-badge .tier-l { transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease; }
+        .tier-badge:hover .tier-c { transform: translateY(-3px) scale(1.14) rotate(-5deg); box-shadow: 0 0 16px -2px var(--glow, #4ade80); }
+        .tier-badge:hover .tier-l { transform: translateY(-1px) scale(1.12); }
+        .tier-badge:active .tier-c { transform: scale(.94); }
+        #tierTip { position: fixed; left: 0; top: 0; z-index: 130; pointer-events: none; }
+        #tierTip .tip-in { opacity: 0; transform: translateY(8px) scale(.9); transition: opacity .16s ease, transform .28s cubic-bezier(.34,1.56,.64,1);
+            min-width: 150px; padding: 10px 12px; border-radius: 14px; background: rgba(15,22,34,.97); border: 1px solid rgba(100,116,139,.45);
+            box-shadow: 0 14px 34px -8px rgba(0,0,0,.7); font-size: 12px; color: #cbd5e1; }
+        #tierTip.show .tip-in { opacity: 1; transform: none; }
+        #tierTip.below .tip-in { transform-origin: top center; }
+        #tierTip .tip-head { display: flex; align-items: center; gap: 8px; font-weight: 800; color: #fff; font-size: 13px; }
+        #tierTip .tip-head img { width: 18px; height: 18px; object-fit: contain; }
+        #tierTip .tip-row { margin-top: 7px; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+        #tierTip .tip-chip { font-weight: 900; font-size: 11px; padding: 2px 8px; border-radius: 6px; }
+        #tierTip .tip-pts { font-weight: 900; color: #4ade80; font-size: 15px; }
+        #tierTip .tip-sub { color: #94a3b8; font-weight: 700; }
+
+
+        /* ===== Nền màu kiểu mctiers ===== */
+        .bg-slate-900 { background-color: #10161d !important; }
+        .bg-slate-800 { background-color: #18202a !important; }
+        .hover\:bg-slate-800:hover { background-color: #1a2331 !important; }
+        .bg-slate-900\/40 { background-color: rgba(18,24,34,.7) !important; }
+        .border-slate-800, .border-slate-800\/80 { border-color: #18202a !important; }
+        .border-slate-700, .border-slate-700\/60, .border-slate-700\/70, .border-slate-700\/80 { border-color: #1f2938 !important; }
+        .player-row { background-color: #141b26; border-color: #18202a; }
+        .player-row:hover { background-color: #19212d !important; }
+        #leaderboardHeader { background-color: #121822 !important; border-color: #18202a !important; }
+        #leaderboardView { box-shadow: none !important; }
+
+
+        /* ===== Boss chào ===== */
+        @keyframes bossFloat { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-10px) rotate(1deg); } }
+        .boss-img { animation: bossFloat 4.2s ease-in-out infinite; filter: drop-shadow(0 14px 22px rgba(0,0,0,.55)); transform-origin: 50% 100%; }
+        .boss-glow { position: absolute; left: -40px; bottom: -60px; width: 340px; height: 340px; border-radius: 50%; pointer-events: none;
+            background: radial-gradient(circle, rgba(74,222,128,.16), transparent 65%); }
+        .boss-bubble { transition: border-color .3s ease, box-shadow .3s ease; }
+        .boss-bubble:hover { border-color: rgba(74,222,128,.5); box-shadow: 0 10px 30px -12px rgba(74,222,128,.35); }
+        .boss-bubble::before { content: ''; position: absolute; width: 16px; height: 16px; background: #141b26; border-left: 1px solid rgba(100,116,139,.6); border-bottom: 1px solid rgba(100,116,139,.6);
+            left: -9px; bottom: 34px; transform: rotate(45deg); }
+        @media (max-width: 639px) { .boss-bubble::before { left: 50%; top: -9px; bottom: auto; margin-left: -8px; transform: rotate(135deg); } }
+        #bossText .caret { display: inline-block; width: 2px; height: 1.1em; margin-left: 2px; background: #4ade80; vertical-align: -2px; animation: caretBlink .8s steps(2) infinite; }
+        @keyframes caretBlink { 50% { opacity: 0; } }
+        #bossDots span { width: 7px; height: 7px; border-radius: 99px; background: #334155; transition: width .35s cubic-bezier(.22,1,.36,1), background-color .3s; }
+        #bossDots span.on { width: 22px; background: #4ade80; }
+        .boss-next { animation: bossNudge 1.3s ease-in-out infinite; }
+        @keyframes bossNudge { 50% { transform: translateX(4px); } }
 
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
@@ -451,7 +521,7 @@
 
 
     <!-- Navigation Bar -->
-    <nav class="site-nav w-full border-b border-slate-800 bg-[#0f172a]/95 sticky top-0 z-50 shadow-sm">
+    <nav class="site-nav w-full border-b border-slate-800 bg-[#10161d]/95 sticky top-0 z-50 shadow-sm">
         <div class="max-w-[1500px] mx-auto px-6 sm:px-10 lg:px-12">
             <div class="flex items-center justify-between h-20">
                 <div class="flex items-center space-x-6 md:space-x-12">
@@ -466,6 +536,9 @@
                         </button>
                         <button onclick="showPage('rankings')" id="navBtnLeaderboard" class="relative z-10 px-3 md:px-4 py-2 rounded-xl text-slate-400 hover:text-white flex items-center gap-2 transition-colors duration-300 whitespace-nowrap">
                             <i class="fa-solid fa-list-ol text-sm"></i> Bảng Xếp Hạng
+                        </button>
+                        <button onclick="goToSection('mod')" id="navBtnMod" class="relative z-10 hidden md:flex px-3 md:px-4 py-2 rounded-xl text-slate-400 hover:text-white transition-colors duration-300 items-center gap-2 whitespace-nowrap">
+                            <i class="fa-solid fa-puzzle-piece text-sm"></i> Mod
                         </button>
                         <a href="https://discord.gg/CkJpbWY2J" target="_blank" class="relative z-10 hidden sm:flex px-3 md:px-4 py-2 rounded-xl text-slate-400 hover:text-white transition-colors duration-300 items-center gap-2">
                             <i class="fa-brands fa-discord text-lg"></i> Discord
@@ -499,7 +572,7 @@
             <section id="heroSection" class="relative grid lg:grid-cols-5 gap-6">
                 <div class="hero-glow blob-anim"></div>
                 <div id="heroParticles" class="hero-particles" aria-hidden="true"></div>
-                <div style="--d:0" class="hero-item hover-card lg:col-span-2 relative overflow-hidden rounded-3xl border border-slate-700/70 bg-gradient-to-br from-[#1b2a3f] via-[#16233a] to-[#0f172a] p-8 sm:p-10 flex flex-col justify-center">
+                <div style="--d:0" class="hero-item hover-card lg:col-span-2 relative overflow-hidden rounded-3xl border border-slate-700/70 bg-gradient-to-br from-[#171f2c] via-[#16233a] to-[#10161d] p-8 sm:p-10 flex flex-col justify-center">
                     <div class="blob-anim pointer-events-none absolute -top-24 -right-24 w-72 h-72 rounded-full bg-green-400/15 blur-3xl"></div>
                     <img id="heroLogo" alt="BOSS TIER" class="float-anim relative h-20 sm:h-24 w-auto self-start object-contain mb-6 drop-shadow-[0_6px_18px_rgba(74,222,128,0.25)]">
                     <h1 class="relative text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight">Bảng xếp hạng<br><span class="text-green-400">Minecraft PvP</span></h1>
@@ -534,7 +607,7 @@
             </section>
 
             <!-- Server IP -->
-            <section class="reveal hover-card rounded-2xl border border-slate-700/70 bg-[#162032]/80 px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <section class="reveal hover-card rounded-2xl border border-slate-700/70 bg-[#141b26]/80 px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div class="flex items-center gap-4">
                     <div class="w-11 h-11 rounded-xl bg-rose-600/90 flex items-center justify-center text-white text-lg shadow-lg shadow-rose-900/30"><i class="fa-solid fa-cube"></i></div>
                     <div>
@@ -552,8 +625,25 @@
             </section>
 
             <!-- About -->
+            <section id="bossTalk" class="reveal">
+                <div class="relative overflow-hidden rounded-3xl border border-slate-700/70 bg-gradient-to-br from-[#171f2c] to-[#111720] p-6 sm:p-8">
+                    <div class="boss-glow" aria-hidden="true"></div>
+                    <div class="relative flex flex-col sm:flex-row items-center sm:items-end gap-4 sm:gap-8">
+                        <img src="https://i.ibb.co/YBHFQkdk/bosshi.png" alt="Boss" class="boss-img w-44 sm:w-56 lg:w-64 flex-shrink-0 object-contain select-none" draggable="false">
+                        <div class="boss-bubble relative w-full flex-1 rounded-2xl border border-slate-600/60 bg-[#141b26] p-5 sm:p-6 cursor-pointer" id="bossBubble" role="button" tabindex="0">
+                            <div class="absolute -top-3 left-5 rounded-lg bg-green-400 px-3 py-0.5 text-[11px] font-black uppercase tracking-widest text-slate-950">Boss</div>
+                            <p id="bossText" class="min-h-[84px] sm:min-h-[72px] text-[15px] sm:text-base leading-relaxed text-slate-200 font-semibold"></p>
+                            <div class="mt-3 flex items-center justify-between gap-3">
+                                <div id="bossDots" class="flex items-center gap-1.5"></div>
+                                <div id="bossActions" class="flex items-center gap-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section id="about" class="reveal grid lg:grid-cols-5 gap-6 scroll-mt-28">
-                <div class="hover-card lg:col-span-2 rounded-3xl border border-slate-700/70 bg-gradient-to-br from-[#1b2a3f] to-[#131d2f] p-7 sm:p-9">
+                <div class="hover-card lg:col-span-2 rounded-3xl border border-slate-700/70 bg-gradient-to-br from-[#171f2c] to-[#111720] p-7 sm:p-9">
                     <div class="text-xs font-black uppercase tracking-widest text-green-400">Giới thiệu</div>
                     <h2 class="mt-2 text-2xl sm:text-3xl font-black text-white leading-tight">BOSS TIER là gì?</h2>
                     <p class="mt-4 text-sm sm:text-[15px] text-slate-400 leading-relaxed">
@@ -566,22 +656,22 @@
                     <a href="https://discord.gg/CkJpbWY2J" target="_blank" rel="noopener" class="press mt-6 inline-flex items-center gap-2 bg-[#5865F2] hover:bg-[#4752C4] text-white text-sm font-extrabold px-5 py-2.5 rounded-xl"><i class="fa-brands fa-discord"></i> Tham gia cộng đồng</a>
                 </div>
                 <div class="stagger lg:col-span-3 grid sm:grid-cols-2 gap-4">
-                    <div style="--i:0" class="hover-card rounded-2xl border border-slate-700/70 bg-[#162032]/80 p-5">
+                    <div style="--i:0" class="hover-card rounded-2xl border border-slate-700/70 bg-[#141b26]/80 p-5">
                         <div class="w-11 h-11 rounded-xl bg-green-400/10 border border-green-400/30 text-green-400 flex items-center justify-center text-lg"><i class="fa-solid fa-crosshairs"></i></div>
                         <h3 class="mt-4 font-extrabold text-white">Test thực chiến</h3>
                         <p class="mt-1.5 text-sm text-slate-400 leading-relaxed">Bậc của bạn được quyết định bằng trận đấu thật với tester, không phải tự khai báo.</p>
                     </div>
-                    <div style="--i:1" class="hover-card rounded-2xl border border-slate-700/70 bg-[#162032]/80 p-5">
+                    <div style="--i:1" class="hover-card rounded-2xl border border-slate-700/70 bg-[#141b26]/80 p-5">
                         <div class="w-11 h-11 rounded-xl bg-amber-400/10 border border-amber-400/30 text-amber-300 flex items-center justify-center text-lg"><i class="fa-solid fa-scale-balanced"></i></div>
                         <h3 class="mt-4 font-extrabold text-white">Điểm số rõ ràng</h3>
                         <p class="mt-1.5 text-sm text-slate-400 leading-relaxed">Mỗi bậc tương ứng một số điểm cố định, tổng điểm quyết định thứ hạng và danh hiệu.</p>
                     </div>
-                    <div style="--i:2" class="hover-card rounded-2xl border border-slate-700/70 bg-[#162032]/80 p-5">
+                    <div style="--i:2" class="hover-card rounded-2xl border border-slate-700/70 bg-[#141b26]/80 p-5">
                         <div class="w-11 h-11 rounded-xl bg-sky-400/10 border border-sky-400/30 text-sky-300 flex items-center justify-center text-lg"><i class="fa-solid fa-rotate"></i></div>
                         <h3 class="mt-4 font-extrabold text-white">Cập nhật tự động</h3>
                         <p class="mt-1.5 text-sm text-slate-400 leading-relaxed">Kết quả đăng ở Discord được bot lưu lại, web tự làm mới nên bảng luôn mới.</p>
                     </div>
-                    <div style="--i:3" class="hover-card rounded-2xl border border-slate-700/70 bg-[#162032]/80 p-5">
+                    <div style="--i:3" class="hover-card rounded-2xl border border-slate-700/70 bg-[#141b26]/80 p-5">
                         <div class="w-11 h-11 rounded-xl bg-fuchsia-400/10 border border-fuchsia-400/30 text-fuchsia-300 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
                         <h3 class="mt-4 font-extrabold text-white">Cộng đồng PvP</h3>
                         <p class="mt-1.5 text-sm text-slate-400 leading-relaxed">Nơi người chơi tìm đối thủ, luyện tập và cùng nhau leo lên từng bậc tier.</p>
@@ -607,7 +697,70 @@
             </section>
 
             <!-- How to get tested -->
-            <section id="how-to-test" class="reveal hover-card rounded-3xl border border-slate-700/70 bg-[#162032]/70 p-6 sm:p-8 scroll-mt-28">
+            <section id="mod" class="reveal grid lg:grid-cols-5 gap-6 scroll-mt-28">
+                <div class="hover-card lg:col-span-3 rounded-3xl border border-slate-700/70 bg-gradient-to-br from-[#171f2c] to-[#111720] p-7 sm:p-9">
+                    <div class="flex items-center gap-4">
+                        <img src="https://i.ibb.co/XkKyrSct/Boss-Tier-big.png" alt="BossTier Tagger" class="w-16 h-16 rounded-2xl border border-slate-600/60 object-contain bg-[#0f1622] p-1">
+                        <div>
+                            <div class="text-xs font-black uppercase tracking-widest text-green-400">Mod Minecraft</div>
+                            <h2 class="mt-1 text-2xl sm:text-3xl font-black text-white leading-tight">BossTier Tagger</h2>
+                        </div>
+                    </div>
+                    <p class="mt-5 text-sm sm:text-[15px] text-slate-400 leading-relaxed">Mod Fabric phía người chơi, hiển thị tier BossTier ngay trong game trên mọi server, không cần server cài thêm gì.</p>
+                    <div class="mt-5 grid sm:grid-cols-3 gap-3">
+                        <div class="rounded-xl border border-slate-700/70 bg-[#141b26]/80 p-4"><div class="text-green-400 text-lg"><i class="fa-solid fa-tag"></i></div><div class="mt-2 font-extrabold text-white text-sm">Trên nametag</div><div class="mt-1 text-xs text-slate-400">Tier hiện ngay trên đầu người chơi.</div></div>
+                        <div class="rounded-xl border border-slate-700/70 bg-[#141b26]/80 p-4"><div class="text-amber-300 text-lg"><i class="fa-solid fa-table-list"></i></div><div class="mt-2 font-extrabold text-white text-sm">Danh sách Tab</div><div class="mt-1 text-xs text-slate-400">Xem tier của mọi người khi bấm Tab.</div></div>
+                        <div class="rounded-xl border border-slate-700/70 bg-[#141b26]/80 p-4"><div class="text-sky-300 text-lg"><i class="fa-solid fa-comments"></i></div><div class="mt-2 font-extrabold text-white text-sm">Trong chat</div><div class="mt-1 text-xs text-slate-400">Tier hiển thị cạnh tên khi chat.</div></div>
+                    </div>
+                    <ol class="mt-6 space-y-2.5 text-sm text-slate-300">
+                        <li class="flex gap-3"><span class="w-6 h-6 shrink-0 rounded-full bg-green-400/15 border border-green-400/40 text-green-400 text-xs font-black flex items-center justify-center">1</span><span>Cài Fabric Loader 0.18.4 trở lên và Java 21.</span></li>
+                        <li class="flex gap-3"><span class="w-6 h-6 shrink-0 rounded-full bg-green-400/15 border border-green-400/40 text-green-400 text-xs font-black flex items-center justify-center">2</span><span>Tải file đúng với phiên bản Minecraft của bạn.</span></li>
+                        <li class="flex gap-3"><span class="w-6 h-6 shrink-0 rounded-full bg-green-400/15 border border-green-400/40 text-green-400 text-xs font-black flex items-center justify-center">3</span><span>Bỏ file vào thư mục mods rồi vào game.</span></li>
+                    </ol>
+                </div>
+                <div class="lg:col-span-2">
+                    <div class="text-xs font-black uppercase tracking-widest text-slate-500 mb-3">Tải về theo phiên bản</div>
+                    <div class="stagger grid gap-3">
+                        <a href="/downloads/BossTierTagger-1.2.5-MC1.21.jar" download style="--i:0" class="press group flex items-center justify-between gap-3 rounded-2xl border border-slate-700/70 bg-[#141b26]/80 hover:border-green-400/60 hover:bg-[#171f2c] px-4 py-3.5">
+                            <span class="flex items-center gap-3">
+                                <span class="w-10 h-10 rounded-xl bg-green-400/10 border border-green-400/30 text-green-400 flex items-center justify-center font-black text-[11px] group-hover:scale-110 transition-transform duration-300">MC</span>
+                                <span><span class="block font-extrabold text-white text-sm">Minecraft 1.21</span><span class="block text-[11px] font-bold text-slate-500">BossTierTagger 1.2.5 · .jar · 78 KB</span></span>
+                            </span>
+                            <i class="fa-solid fa-download text-slate-400 group-hover:text-green-400 group-hover:translate-y-0.5 transition-all duration-300"></i>
+                        </a>
+                        <a href="/downloads/BossTierTagger-1.2.5-MC1.21.1.jar" download style="--i:1" class="press group flex items-center justify-between gap-3 rounded-2xl border border-slate-700/70 bg-[#141b26]/80 hover:border-green-400/60 hover:bg-[#171f2c] px-4 py-3.5">
+                            <span class="flex items-center gap-3">
+                                <span class="w-10 h-10 rounded-xl bg-green-400/10 border border-green-400/30 text-green-400 flex items-center justify-center font-black text-[11px] group-hover:scale-110 transition-transform duration-300">MC</span>
+                                <span><span class="block font-extrabold text-white text-sm">Minecraft 1.21.1</span><span class="block text-[11px] font-bold text-slate-500">BossTierTagger 1.2.5 · .jar · 78 KB</span></span>
+                            </span>
+                            <i class="fa-solid fa-download text-slate-400 group-hover:text-green-400 group-hover:translate-y-0.5 transition-all duration-300"></i>
+                        </a>
+                        <a href="/downloads/BossTierTagger-1.2.5-MC1.21.4.jar" download style="--i:2" class="press group flex items-center justify-between gap-3 rounded-2xl border border-slate-700/70 bg-[#141b26]/80 hover:border-green-400/60 hover:bg-[#171f2c] px-4 py-3.5">
+                            <span class="flex items-center gap-3">
+                                <span class="w-10 h-10 rounded-xl bg-green-400/10 border border-green-400/30 text-green-400 flex items-center justify-center font-black text-[11px] group-hover:scale-110 transition-transform duration-300">MC</span>
+                                <span><span class="block font-extrabold text-white text-sm">Minecraft 1.21.4</span><span class="block text-[11px] font-bold text-slate-500">BossTierTagger 1.2.5 · .jar · 78 KB</span></span>
+                            </span>
+                            <i class="fa-solid fa-download text-slate-400 group-hover:text-green-400 group-hover:translate-y-0.5 transition-all duration-300"></i>
+                        </a>
+                        <a href="/downloads/BossTierTagger-1.2.5-MC1.21.8.jar" download style="--i:3" class="press group flex items-center justify-between gap-3 rounded-2xl border border-slate-700/70 bg-[#141b26]/80 hover:border-green-400/60 hover:bg-[#171f2c] px-4 py-3.5">
+                            <span class="flex items-center gap-3">
+                                <span class="w-10 h-10 rounded-xl bg-green-400/10 border border-green-400/30 text-green-400 flex items-center justify-center font-black text-[11px] group-hover:scale-110 transition-transform duration-300">MC</span>
+                                <span><span class="block font-extrabold text-white text-sm">Minecraft 1.21.8</span><span class="block text-[11px] font-bold text-slate-500">BossTierTagger 1.2.5 · .jar · 78 KB</span></span>
+                            </span>
+                            <i class="fa-solid fa-download text-slate-400 group-hover:text-green-400 group-hover:translate-y-0.5 transition-all duration-300"></i>
+                        </a>
+                        <a href="/downloads/BossTierTagger-1.2.5-MC1.21.11.jar" download style="--i:4" class="press group flex items-center justify-between gap-3 rounded-2xl border border-slate-700/70 bg-[#141b26]/80 hover:border-green-400/60 hover:bg-[#171f2c] px-4 py-3.5">
+                            <span class="flex items-center gap-3">
+                                <span class="w-10 h-10 rounded-xl bg-green-400/10 border border-green-400/30 text-green-400 flex items-center justify-center font-black text-[11px] group-hover:scale-110 transition-transform duration-300">MC</span>
+                                <span><span class="block font-extrabold text-white text-sm">Minecraft 1.21.11</span><span class="block text-[11px] font-bold text-slate-500">BossTierTagger 1.2.5 · .jar · 78 KB</span></span>
+                            </span>
+                            <i class="fa-solid fa-download text-slate-400 group-hover:text-green-400 group-hover:translate-y-0.5 transition-all duration-300"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="how-to-test" class="reveal hover-card rounded-3xl border border-slate-700/70 bg-[#141b26]/70 p-6 sm:p-8 scroll-mt-28">
                 <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 mb-8">
                 <div>
                     <h2 class="text-2xl font-black text-white">Cách được test tier</h2>
@@ -626,12 +779,12 @@
 
             <!-- Tiers & titles -->
             <section class="reveal grid lg:grid-cols-2 gap-6">
-                <div class="hover-card rounded-3xl border border-slate-700/70 bg-[#162032]/70 p-6 sm:p-7">
+                <div class="hover-card rounded-3xl border border-slate-700/70 bg-[#141b26]/70 p-6 sm:p-7">
                     <h2 class="text-lg font-black text-white">Bậc và điểm</h2>
                     <p class="text-xs text-slate-400 mt-1 mb-5">Mỗi chế độ chia 5 bậc, mỗi bậc có High và Low. Điểm của mọi chế độ cộng lại thành điểm tổng.</p>
                     <div id="homeTierTable" class="stagger space-y-2"></div>
                 </div>
-                <div class="hover-card rounded-3xl border border-slate-700/70 bg-[#162032]/70 p-6 sm:p-7">
+                <div class="hover-card rounded-3xl border border-slate-700/70 bg-[#141b26]/70 p-6 sm:p-7">
                     <h2 class="text-lg font-black text-white">Danh hiệu</h2>
                     <p class="text-xs text-slate-400 mt-1 mb-5">Danh hiệu của bạn thay đổi theo tổng điểm ở tất cả chế độ.</p>
                     <div id="homeTitles" class="stagger space-y-3.5"></div>
@@ -639,7 +792,7 @@
             </section>
 
             <!-- FAQ -->
-            <section class="reveal hover-card rounded-3xl border border-slate-700/70 bg-[#162032]/70 p-6 sm:p-8">
+            <section class="reveal hover-card rounded-3xl border border-slate-700/70 bg-[#141b26]/70 p-6 sm:p-8">
                 <h2 class="text-xl font-black text-white">Câu hỏi thường gặp</h2>
                 <p class="text-xs text-slate-400 mt-1 mb-5">Giải đáp nhanh về tier, điểm và danh hiệu.</p>
                 <div class="stagger divide-y divide-slate-700/60 rounded-2xl border border-slate-700/60 overflow-hidden" id="homeFaq">
@@ -668,7 +821,7 @@
 
             <!-- CTA -->
             <section class="reveal">
-                <div class="hover-card relative overflow-hidden rounded-3xl border border-[#5865F2]/40 bg-gradient-to-r from-[#5865F2]/25 via-[#1b2a3f] to-[#162032] p-8 sm:p-12 text-center">
+                <div class="hover-card relative overflow-hidden rounded-3xl border border-[#5865F2]/40 bg-gradient-to-r from-[#5865F2]/25 via-[#171f2c] to-[#141b26] p-8 sm:p-12 text-center">
                     <div class="blob-anim pointer-events-none absolute -bottom-24 -left-16 w-72 h-72 rounded-full bg-[#5865F2]/25 blur-3xl"></div>
                     <i class="fa-brands fa-discord relative float-anim text-5xl text-white/90"></i>
                     <h2 class="relative mt-4 text-2xl sm:text-3xl font-black text-white">Sẵn sàng leo hạng?</h2>
@@ -710,15 +863,15 @@
             </div>
 
             <!-- VIEW 1: Leaderboard Container -->
-            <div id="leaderboardView" class="bg-[#1e293b] border border-[#334155] rounded-tr-2xl rounded-b-2xl p-6 shadow-xl relative z-10">
+            <div id="leaderboardView" class="bg-[#121822] border border-[#1f2938] rounded-tr-2xl rounded-b-2xl p-6 shadow-xl relative z-10">
                 
                 <!-- Thanh công cụ góc phải trên cùng -->
                 <div class="flex flex-wrap items-center justify-end gap-3 mb-5 pb-4 border-b border-slate-800/80">
-                    <button class="bg-[#162032] hover:bg-slate-800 border border-slate-700/80 text-white text-xs font-bold px-3.5 py-2 rounded-xl flex items-center gap-2 transition-colors">
+                    <button class="bg-[#141b26] hover:bg-slate-800 border border-slate-700/80 text-white text-xs font-bold px-3.5 py-2 rounded-xl flex items-center gap-2 transition-colors">
                         <i class="fa-solid fa-circle-info text-slate-400"></i> Information
                     </button>
                     
-                    <div class="bg-[#162032] border border-slate-700/80 rounded-xl px-3.5 py-1.5 flex items-center space-x-2.5">
+                    <div class="bg-[#141b26] border border-slate-700/80 rounded-xl px-3.5 py-1.5 flex items-center space-x-2.5">
                         <div class="bg-rose-600 text-white text-[10px] font-black px-2 py-0.5 rounded tracking-wider">PVP CLUB</div>
                         <span class="text-xs text-slate-300 font-bold">SERVER IP</span>
                         <div class="bg-slate-900 border border-slate-700 text-white text-xs font-mono font-bold px-2.5 py-1 rounded-lg flex items-center gap-2">
@@ -733,7 +886,7 @@
                 </div>
 
                 <!-- Bảng danh sách -->
-                <div id="leaderboardHeader" class="flex items-center text-sm font-extrabold text-slate-400 tracking-wider uppercase px-8 py-3 bg-[#162032]/70 rounded-xl mb-4 border border-slate-800">
+                <div id="leaderboardHeader" class="flex items-center text-sm font-extrabold text-slate-400 tracking-wider uppercase px-8 py-3 bg-[#141b26]/70 rounded-xl mb-4 border border-slate-800">
                     <div class="rank-head w-[118px] sm:w-[158px] flex-shrink-0 -ml-2 pl-1">#</div>
                     <div class="w-[26%] min-w-[150px] flex-shrink-0">PLAYER</div>
                     <div class="w-28 text-left flex-shrink-0">POINTS</div>
@@ -789,7 +942,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="mt-auto border-t border-slate-800 bg-[#0f172a]/80 py-8 text-center text-sm text-slate-500 relative z-10">
+    <footer class="mt-auto border-t border-slate-800 bg-[#10161d]/80 py-8 text-center text-sm text-slate-500 relative z-10">
         <div class="max-w-[1500px] mx-auto px-6 sm:px-10 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p>© 2026 BOSS TIER - Minecraft PvP Ranking System. All rights reserved.</p>
             <div class="flex items-center space-x-6 font-semibold">
@@ -1045,6 +1198,18 @@
 
         // ===================== LANGUAGE (VI / EN) =====================
         const I18N_EN = {
+            'Mod Minecraft': 'Minecraft Mod',
+            'Mod Fabric phía người chơi, hiển thị tier BossTier ngay trong game trên mọi server, không cần server cài thêm gì.': 'A client-side Fabric mod that shows BossTier tiers in-game on any server, with nothing to install on the server.',
+            'Trên nametag': 'On nametags',
+            'Tier hiện ngay trên đầu người chơi.': 'Tiers appear right above players.',
+            'Danh sách Tab': 'Tab list',
+            'Xem tier của mọi người khi bấm Tab.': 'See everyone’s tier when you press Tab.',
+            'Trong chat': 'In chat',
+            'Tier hiển thị cạnh tên khi chat.': 'Tiers show next to names in chat.',
+            'Cài Fabric Loader 0.18.4 trở lên và Java 21.': 'Install Fabric Loader 0.18.4 or newer and Java 21.',
+            'Tải file đúng với phiên bản Minecraft của bạn.': 'Download the file that matches your Minecraft version.',
+            'Bỏ file vào thư mục mods rồi vào game.': 'Put the file in your mods folder and launch the game.',
+            'Tải về theo phiên bản': 'Download by version',
             'BOSS TIER - Bảng Xếp Hạng & Tier List Minecraft PvP': 'BOSS TIER - Minecraft PvP Rankings & Tier List',
             'Trang chủ': 'Home',
             'Bảng Xếp Hạng': 'Rankings',
@@ -1138,6 +1303,11 @@
         const i18nTextStore = new WeakMap();
         function i18nKey(text) { return text.trim().replace(/\s+/g, ' '); }
 
+        function goToSection(id) {
+            const go = () => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+            if (currentPage !== 'home') { showPage('home'); setTimeout(go, 750); } else go();
+        }
+
         function applyStaticLang() {
             const en = LANG === 'en';
             const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
@@ -1209,6 +1379,7 @@
             });
             homeStaticBuilt = false;
             renderHome(false);
+            if (typeof renderBossTalk === 'function' && document.getElementById('bossText').textContent) renderBossTalk(false);
             switchMainView(currentView);
             syncNavState();
             setTimeout(movePill, 60);
@@ -1373,7 +1544,7 @@
                     return `<div class="flex flex-col items-center gap-0.5"><div class="w-7 h-7 rounded-full tier-circle-empty flex items-center justify-center"><img src="${mode.icon}" class="w-3.5 h-3.5 object-contain" alt=""></div><span class="text-[10px] text-slate-600 font-bold leading-none">-</span></div>`;
                 }
                 const t = getTierClass(tierVal);
-                return `<div class="flex flex-col items-center gap-0.5 hover:-translate-y-0.5 transition-transform" title="${mode.name}: ${tierVal}"><div class="w-7 h-7 rounded-full ${t.circle} flex items-center justify-center" style="border-width:2px"><img src="${mode.icon}" class="w-3.5 h-3.5 object-contain" alt="${mode.name}"></div><span class="${t.label} text-[10px] font-black px-1.5 py-0.5 rounded leading-none">${tierVal}</span></div>`;
+                return `<div class="tier-badge flex flex-col items-center gap-0.5"${tierTipAttr(mode, tierVal)}><div class="tier-c w-7 h-7 rounded-full ${t.circle} flex items-center justify-center" style="border-width:2px"><img src="${mode.icon}" class="w-3.5 h-3.5 object-contain" alt="${mode.name}"></div><span class="tier-l ${t.label} text-[10px] font-black px-1.5 py-0.5 rounded leading-none">${tierVal}</span></div>`;
             }).join('');
         }
 
@@ -1383,7 +1554,7 @@
             const gm = modes.filter(m => m.id !== 'overall');
 
             document.getElementById('homeModes').innerHTML = gm.map((m, i) => `
-                <button onclick="goRankings('${m.id}')" style="--i:${i}" class="mode-card group rounded-2xl border border-slate-700/70 bg-[#162032]/80 hover:bg-[#1e293b] hover:border-green-400/70 py-4 flex flex-col items-center gap-2">
+                <button onclick="goRankings('${m.id}')" style="--i:${i}" class="mode-card group rounded-2xl border border-slate-700/70 bg-[#141b26]/80 hover:bg-[#121822] hover:border-green-400/70 py-4 flex flex-col items-center gap-2">
                     <img src="${m.icon}" alt="" class="w-9 h-9 object-contain drop-shadow-[0_0_6px_rgba(255,255,255,0.15)] group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300">
                     <span class="text-xs font-extrabold text-slate-300 group-hover:text-green-400 transition-colors">${m.name}</span>
                 </button>`).join('');
@@ -1468,11 +1639,11 @@
                     .sort((a, b) => TIER_RANKS.indexOf(a.tiers[m.id]) - TIER_RANKS.indexOf(b.tiers[m.id]) || b.points - a.points);
                 const champ = ranked[0];
                 if (!champ) {
-                    return `<div class="rounded-2xl border border-dashed border-slate-700/70 bg-[#162032]/50 p-5 flex items-center gap-3 text-slate-500 text-sm"><img src="${m.icon}" alt="" class="w-8 h-8 object-contain opacity-40">${m.name}: ${tr('chưa có dữ liệu', 'no data yet')}</div>`;
+                    return `<div class="rounded-2xl border border-dashed border-slate-700/70 bg-[#141b26]/50 p-5 flex items-center gap-3 text-slate-500 text-sm"><img src="${m.icon}" alt="" class="w-8 h-8 object-contain opacity-40">${m.name}: ${tr('chưa có dữ liệu', 'no data yet')}</div>`;
                 }
                 const t = getTierClass(champ.tiers[m.id]);
                 return `
-                <button onclick="goRankings('${m.id}')" class="hover-card group text-left rounded-2xl border border-slate-700/70 bg-[#162032]/80 p-4 flex items-center gap-3.5">
+                <button onclick="goRankings('${m.id}')" class="hover-card group text-left rounded-2xl border border-slate-700/70 bg-[#141b26]/80 p-4 flex items-center gap-3.5">
                     <img loading="lazy" decoding="async" src="https://render.crafty.gg/3d/bust/${encodeURIComponent(champ.username)}" alt="" onerror="this.src='https://vzge.me/bust/512/AxelButt'" class="w-14 h-14 object-contain flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-slate-500"><img src="${m.icon}" alt="" class="w-4 h-4 object-contain">${m.name}</div>
@@ -1637,8 +1808,22 @@
                 const leftPos = activeBtn.offsetLeft;
                 const width = activeBtn.offsetWidth;
 
+                const prevL = indicator.__l, prevW = indicator.__w;
+                indicator.__l = leftPos; indicator.__w = width;
                 indicator.style.width = `${width}px`;
                 indicator.style.transform = `translateX(${leftPos}px)`;
+                if (prevL !== undefined && prevL !== leftPos && indicator.animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    // Kéo giãn: đầu thanh chạy trước, đuôi bám theo rồi co lại
+                    const fromR = prevL + prevW, toR = leftPos + width;
+                    const minL = Math.min(prevL, leftPos), maxR = Math.max(fromR, toR);
+                    const goingRight = leftPos > prevL;
+                    indicator.getAnimations().forEach(a => a.cancel());
+                    indicator.animate([
+                        { transform: `translateX(${prevL}px)`, width: `${prevW}px`, boxShadow: '0 0 10px #4ade80' },
+                        { transform: `translateX(${minL}px)`, width: `${maxR - minL}px`, boxShadow: '0 0 22px #4ade80', offset: .45 },
+                        { transform: `translateX(${leftPos}px)`, width: `${width}px`, boxShadow: '0 0 10px #4ade80' }
+                    ], { duration: 560, easing: 'cubic-bezier(.22,1,.36,1)' });
+                }
             }
         }
 
@@ -1708,13 +1893,14 @@
         }
 
         function getTierClass(tierVal) {
-            const cleanVal = tierVal.toUpperCase();
-            if (cleanVal.endsWith('1')) return { circle: 'tier-circle-tier1', label: 'tier-label-tier1' };
-            if (cleanVal.endsWith('2')) return { circle: 'tier-circle-tier2', label: 'tier-label-tier2' };
-            if (cleanVal.endsWith('3')) return { circle: 'tier-circle-tier3', label: 'tier-label-tier3' };
-            if (cleanVal.endsWith('4')) return { circle: 'tier-circle-tier4', label: 'tier-label-tier4' };
-            if (cleanVal.endsWith('5')) return { circle: 'tier-circle-tier5', label: 'tier-label-tier5' };
-            return { circle: 'tier-circle-tier2', label: 'tier-label-tier2' };
+            const v = String(tierVal || '').toUpperCase();
+            const m = v.match(/^(HT|LT)([1-5])$/);
+            const key = m ? m[1].toLowerCase() + m[2] : 'lt2';
+            return { circle: 'tier-circle-' + key, label: 'tier-label-' + key, key };
+        }
+
+        function tierTipAttr(mode, tierVal) {
+            return ` data-tier-tip="${mode.id}|${String(tierVal).toUpperCase()}"`;
         }
 
         const PLAYERS_PER_PAGE = 100;
@@ -1810,11 +1996,11 @@
                     }
                     const tClass = getTierClass(tierVal);
                     return `
-                        <div class="flex flex-col items-center gap-1 min-w-[44px] flex-shrink-0 group relative">
-                            <div class="w-11 h-11 rounded-full ${tClass.circle} flex items-center justify-center shadow-sm hover:scale-105 transition-transform">
+                        <div class="tier-badge flex flex-col items-center gap-1 min-w-[44px] flex-shrink-0 group relative"${tierTipAttr(mode, tierVal)}>
+                            <div class="tier-c w-11 h-11 rounded-full ${tClass.circle} flex items-center justify-center shadow-sm">
                                 <img src="${mode.icon}" class="w-6 h-6 object-contain" alt="${mode.name}">
                             </div>
-                            <span class="${tClass.label} text-xs font-black px-2 py-0.5 rounded-md leading-none tracking-tight shadow-sm">${tierVal}</span>
+                            <span class="tier-l ${tClass.label} text-xs font-black px-2 py-0.5 rounded-md leading-none tracking-tight shadow-sm">${tierVal}</span>
                         </div>
                     `;
                 }).join('');
@@ -2036,11 +2222,11 @@
                     const tier = player.tiers && player.tiers[mode.id];
                     const tClass = tier ? getTierClass(tier) : { circle: 'tier-circle-empty', label: 'tier-label-empty' };
                     return `
-                        <div title="${mode.name}: ${tier || tr('Chưa có tier', 'No tier')}" class="flex min-w-[42px] shrink-0 flex-col items-center gap-1.5">
-                            <div class="w-10 h-10 rounded-full ${tClass.circle} flex items-center justify-center">
+                        <div${tier ? tierTipAttr(mode, tier) : ` title="${mode.name}: ${tr('Chưa có tier', 'No tier')}"`} class="tier-badge flex min-w-[42px] shrink-0 flex-col items-center gap-1.5">
+                            <div class="tier-c w-10 h-10 rounded-full ${tClass.circle} flex items-center justify-center">
                                 <img src="${mode.icon}" alt="${mode.name}" class="w-5 h-5 object-contain ${tier ? '' : 'opacity-50'}">
                             </div>
-                            <span class="${tClass.label} text-[11px] font-black px-1.5 py-0.5 rounded leading-none">${tier || '-'}</span>
+                            <span class="tier-l ${tClass.label} text-[11px] font-black px-1.5 py-0.5 rounded leading-none">${tier || '-'}</span>
                         </div>
                     `;
                 }).join('');
@@ -2167,7 +2353,7 @@
 
         function exportTierlistImage() {
             const board = document.getElementById('tierlistBoard');
-            html2canvas(board, { backgroundColor: '#0f172a', scale: 2 }).then(canvas => {
+            html2canvas(board, { backgroundColor: '#10161d', scale: 2 }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = `BOSS_Tierlist_${activeTab.toUpperCase()}.png`;
                 link.href = canvas.toDataURL();
@@ -2193,6 +2379,111 @@
                 el.style.setProperty('--my', (ev.clientY - r.top) + 'px');
             });
         }, { passive: true });
+    })();
+    </script>
+
+    <script>
+    /* Tooltip điểm khi rê chuột vào tier */
+    (function () {
+        const tip = document.createElement('div');
+        tip.id = 'tierTip';
+        tip.innerHTML = '<div class="tip-in"></div>';
+        document.body.appendChild(tip);
+        const inn = tip.firstChild;
+        let cur = null, raf = 0;
+        function fill(el) {
+            const [modeId, tierVal] = el.getAttribute('data-tier-tip').split('|');
+            const mode = modes.find(m => m.id === modeId) || { name: modeId, icon: '' };
+            const t = getTierClass(tierVal);
+            const high = tierVal.startsWith('HT');
+            const pts = TIER_POINTS[tierVal] || 0;
+            const num = tierVal.slice(2);
+            const name = high ? tr('Tier cao ' + num, 'High Tier ' + num) : tr('Tier thấp ' + num, 'Low Tier ' + num);
+            inn.innerHTML =
+                '<div class="tip-head">' + (mode.icon ? '<img src="' + mode.icon + '" alt="">' : '') + '<span>' + mode.name + '</span></div>' +
+                '<div class="tip-row"><span class="tip-chip ' + t.label + '">' + tierVal + '</span><span class="tip-sub">' + name + '</span></div>' +
+                '<div class="tip-row"><span class="tip-sub">' + tr('Điểm nhận được', 'Points earned') + '</span><span class="tip-pts">+' + pts + '</span></div>';
+        }
+        function place() {
+            raf = 0;
+            if (!cur) return;
+            const r = cur.getBoundingClientRect();
+            const w = tip.offsetWidth, h = tip.offsetHeight;
+            let x = r.left + r.width / 2 - w / 2;
+            x = Math.max(8, Math.min(window.innerWidth - w - 8, x));
+            let y = r.top - h - 12, below = false;
+            if (y < 8) { y = r.bottom + 12; below = true; }
+            tip.style.transform = 'translate3d(' + Math.round(x) + 'px,' + Math.round(y) + 'px,0)';
+            tip.classList.toggle('below', below);
+        }
+        function show(el) {
+            cur = el; fill(el);
+            tip.style.visibility = 'hidden'; tip.classList.remove('show');
+            place();
+            tip.style.visibility = '';
+            requestAnimationFrame(() => tip.classList.add('show'));
+        }
+        function hide() { cur = null; tip.classList.remove('show'); }
+        document.addEventListener('pointerover', e => {
+            if (e.pointerType === 'touch') return;
+            const el = e.target.closest && e.target.closest('[data-tier-tip]');
+            if (el === cur) return;
+            if (el) show(el); else if (cur) hide();
+        }, { passive: true });
+        window.addEventListener('scroll', () => { if (cur && !raf) raf = requestAnimationFrame(place); }, { passive: true });
+        document.addEventListener('click', hide, true);
+    })();
+    </script>
+
+    <script>
+    /* Boss chào: lời thoại kiểu truyện, gõ từng chữ */
+    var bossIdx = 0, bossTimer = null, bossFull = false;
+    function bossLines() {
+        return [
+            tr('Xin chào! Mình là Boss, người dẫn đường của BOSS TIER.', 'Hey there! I’m Boss, your guide to BOSS TIER.'),
+            tr('Ở đây ai cũng được test thực chiến, rồi nhận bậc tier đúng với trình độ thật của mình.', 'Here everyone is tested in real fights, then gets the tier their skill truly deserves.'),
+            tr('Có 8 chế độ để thử sức: Sword, Netpot, SMP, UHC, Axe, Vanilla, Mace và Pot.', 'There are 8 gamemodes to try: Sword, Netpot, SMP, UHC, Axe, Vanilla, Mace and Pot.'),
+            tr('Đánh càng giỏi, bậc càng cao. Từ Rookie, bạn có thể leo tới tận Combat Grandmaster đấy!', 'The better you fight, the higher you climb. From Rookie you can reach all the way to Combat Grandmaster!'),
+            tr('Sẵn sàng chưa? Vào bảng xếp hạng xem mình đang đứng ở đâu nhé!', 'Ready? Head to the rankings and see where you stand!')
+        ];
+    }
+    function renderBossTalk(restart) {
+        var t = document.getElementById('bossText');
+        if (!t) return;
+        var lines = bossLines(), line = lines[bossIdx];
+        clearInterval(bossTimer);
+        var dots = document.getElementById('bossDots');
+        dots.innerHTML = lines.map(function (_, i) { return '<span class="' + (i === bossIdx ? 'on' : '') + '"></span>'; }).join('');
+        var last = bossIdx === lines.length - 1;
+        document.getElementById('bossActions').innerHTML = last
+            ? '<button onclick="event.stopPropagation();goRankings()" class="press bg-green-500 hover:bg-green-400 text-slate-950 text-xs font-extrabold px-4 py-2 rounded-xl">' + tr('Xem bảng xếp hạng', 'View rankings') + '</button>' +
+              '<button onclick="event.stopPropagation();bossIdx=0;renderBossTalk()" class="press bg-slate-800 border border-slate-600/70 text-slate-200 text-xs font-extrabold px-3 py-2 rounded-xl"><i class="fa-solid fa-rotate-left"></i></button>'
+            : '<span class="boss-next text-xs font-extrabold text-green-400">' + tr('Bấm để tiếp tục', 'Click to continue') + ' <i class="fa-solid fa-chevron-right text-[10px]"></i></span>';
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce || restart === false) { t.textContent = line; bossFull = true; return; }
+        bossFull = false; var i = 0; t.innerHTML = '<span class="caret"></span>';
+        bossTimer = setInterval(function () {
+            i++;
+            t.textContent = line.slice(0, i);
+            var c = document.createElement('span'); c.className = 'caret'; t.appendChild(c);
+            if (i >= line.length) { clearInterval(bossTimer); bossFull = true; t.removeChild(c); }
+        }, 24);
+    }
+    function bossAdvance() {
+        var lines = bossLines();
+        if (!bossFull) { renderBossTalk(false); return; }
+        if (bossIdx < lines.length - 1) { bossIdx++; renderBossTalk(); }
+    }
+    (function () {
+        var b = document.getElementById('bossBubble');
+        if (!b) return;
+        b.addEventListener('click', bossAdvance);
+        b.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); bossAdvance(); } });
+        var sec = document.getElementById('bossTalk'), started = false;
+        function start() { if (started) return; started = true; renderBossTalk(); }
+        if ('IntersectionObserver' in window) {
+            new IntersectionObserver(function (es, o) { if (es[0].isIntersecting) { start(); o.disconnect(); } }, { threshold: .35 }).observe(sec);
+        } else start();
     })();
     </script>
 </body>
