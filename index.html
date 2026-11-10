@@ -3,7 +3,7 @@
 <head>
     <link rel="preload" as="image" href="https://i.ibb.co/vvknY8WD/bosstier-cropped.png">
     <link rel="icon" href="https://i.ibb.co/XkKyrSct/Boss-Tier-big.png">
-    <script>try { if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('intro-on'); } catch (e) {}</script>
+    <script>try { document.documentElement.classList.add('intro-on'); } catch (e) {}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BOSS TIER - Bảng Xếp Hạng & Tier List Minecraft PvP</title>
@@ -502,11 +502,6 @@
         .boss-next { animation: bossNudge 1.3s ease-in-out infinite; }
         @keyframes bossNudge { 50% { transform: translateX(4px); } }
 
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
-            .reveal, .stagger > * { opacity: 1 !important; transform: none !important; }
-            #introSplash { display: none !important; }
-        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-green-500 selection:text-white">
@@ -1812,7 +1807,7 @@
                 indicator.__l = leftPos; indicator.__w = width;
                 indicator.style.width = `${width}px`;
                 indicator.style.transform = `translateX(${leftPos}px)`;
-                if (prevL !== undefined && prevL !== leftPos && indicator.animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                if (prevL !== undefined && prevL !== leftPos && indicator.animate && !false) {
                     // Kéo giãn: đầu thanh chạy trước, đuôi bám theo rồi co lại
                     const fromR = prevL + prevW, toR = leftPos + width;
                     const minL = Math.min(prevL, leftPos), maxR = Math.max(fromR, toR);
@@ -1831,7 +1826,7 @@
 
         function playTabsIntro() {
             const w = document.getElementById('modeTabsWrapper');
-            if (!w || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            if (!w || false) return;
             w.querySelectorAll('.mode-btn').forEach((b, i) => b.style.setProperty('--ti', i));
             w.classList.remove('tabs-intro');
             void w.offsetWidth;
@@ -2240,7 +2235,7 @@
             if (m.classList.contains('hidden') || m.classList.contains('closing')) return;
             document.body.style.overflow = '';
             const done = () => { m.classList.add('hidden'); m.classList.remove('closing'); };
-            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return done();
+            if (false) return done();
             m.classList.add('closing');
             setTimeout(done, 230);
         }
@@ -2459,7 +2454,7 @@
             ? '<button onclick="event.stopPropagation();goRankings()" class="press bg-green-500 hover:bg-green-400 text-slate-950 text-xs font-extrabold px-4 py-2 rounded-xl">' + tr('Xem bảng xếp hạng', 'View rankings') + '</button>' +
               '<button onclick="event.stopPropagation();bossIdx=0;renderBossTalk()" class="press bg-slate-800 border border-slate-600/70 text-slate-200 text-xs font-extrabold px-3 py-2 rounded-xl"><i class="fa-solid fa-rotate-left"></i></button>'
             : '<span class="boss-next text-xs font-extrabold text-green-400">' + tr('Bấm để tiếp tục', 'Click to continue') + ' <i class="fa-solid fa-chevron-right text-[10px]"></i></span>';
-        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var reduce = false;
         if (reduce || restart === false) { t.textContent = line; bossFull = true; return; }
         bossFull = false; var i = 0; t.innerHTML = '<span class="caret"></span>';
         bossTimer = setInterval(function () {
